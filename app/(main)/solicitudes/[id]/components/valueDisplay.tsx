@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FacturaSimple, Solicitud } from '../../data/types';
+import { Factura, FacturaSimple, Solicitud } from '../../data/types';
 import { useSolicitudContext } from '../context/solicitudProvider';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -24,19 +24,10 @@ export function ValueDisplay({
     useSolicitudContext();
   const [displayValue, setDisplayedValue] = useState<any>();
 
-  // const value =
-  //   solicitud.factura && solicitud.factura[field] !== undefined
-  //     ? solicitud.factura[field]
-  //     : solicitud[field] !== undefined
-  //     ? solicitud[field]
-  //     : '';
-
   const value =
-    'factura' in solicitud
-      ? field in solicitud.factura
-        ? solicitud.factura[field as keyof FacturaSimple]
-        : ''
-      : field in solicitud
+    solicitud.factura && solicitud.factura[field as keyof Factura] !== undefined
+      ? solicitud.factura[field as keyof Factura]
+      : solicitud[field as keyof Solicitud] !== undefined
       ? solicitud[field as keyof Solicitud]
       : '';
 
@@ -91,7 +82,7 @@ export function ValueDisplay({
           <Label htmlFor={field}>{label}: </Label>
           <Input
             id={field}
-            value={editableFieldValue}
+            value={editableFieldValue as string}
             onChange={(e) => handleInputChange(e)}
             className='h-8 w-48'
             type={number ? 'number' : 'text'}
