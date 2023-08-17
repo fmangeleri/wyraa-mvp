@@ -34,6 +34,7 @@ export function ValueTable({
         }).format(value)
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const [editableFieldValue, setEditableFieldValue] = useState(

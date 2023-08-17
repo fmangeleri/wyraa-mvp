@@ -7,16 +7,7 @@ import { getStorage } from "firebase/storage";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// const firebaseConfig = {
-//   apiKey: "AIzaSyB7XyeRmOFhlb7Ca_vUOI_2QMYMZ3FQDAo",
-//   authDomain: "wyraa-api-test.firebaseapp.com",
-//   projectId: "wyraa-api-test",
-//   storageBucket: "wyraa-api-test.appspot.com",
-//   messagingSenderId: "657889519286",
-//   appId: "1:657889519286:web:69aafc3fe5c703245de817",
-//   measurementId: "G-1NQCP3FW3K"
-// };
+
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FB_API_KEY,
