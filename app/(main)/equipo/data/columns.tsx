@@ -1,0 +1,191 @@
+'use client';
+
+import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Usuario, roles, grupos, ubicaciones } from './types';
+import { DataTableColumnHeader } from './data-table-column-header';
+
+export const columns: ColumnDef<Usuario>[] = [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected()}
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label='Select all'
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label='Select row'
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'nombre',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Nombre
+          <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'apellido',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Apellido
+          <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: 'grupo',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Grupo
+          <ArrowUpDown className='ml-2 h-4 w-4' />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const grupo = grupos.find(
+        (grupo) => grupo.value === row.getValue('grupo')
+      );
+
+      if (!grupo) {
+        return null;
+      }
+
+      return (
+        <div className='flex w-[100px] items-center'>
+          {/* {rol.icon && (
+            <rol.icon className='mr-2 h-4 w-4 text-muted-foreground' />
+          )} */}
+          <span>{grupo.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: 'ubicacion',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title='Ubicacion'
+      />
+    ),
+    cell: ({ row }) => {
+      const ubicacion = ubicaciones.find(
+        (ubi) => ubi.value === row.getValue('ubicacion')
+      );
+
+      if (!ubicacion) {
+        return null;
+      }
+
+      return (
+        <div className='flex items-center'>
+          {/* {tipo.icon && (
+            <tipo.icon className='mr-2 h-4 w-4 text-muted-foreground' />
+          )} */}
+          <span>{ubicacion.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: 'rol',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title='Rol'
+      />
+    ),
+    cell: ({ row }) => {
+      const rol = roles.find((rol) => rol.value === row.getValue('rol'));
+
+      if (!rol) {
+        return null;
+      }
+
+      return (
+        <div className='flex w-[100px] items-center'>
+          {/* {rol.icon && (
+            <rol.icon className='mr-2 h-4 w-4 text-muted-foreground' />
+          )} */}
+          <span>{rol.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const payment = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant='ghost'
+              className='h-8 w-8 p-0'
+            >
+              <span className='sr-only'>Open menu</span>
+              <MoreHorizontal className='h-4 w-4' />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end'>
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(payment.id)}
+            >
+              Copy payment ID
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem>View payment details</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+];
