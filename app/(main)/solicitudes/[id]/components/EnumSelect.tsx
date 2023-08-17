@@ -1,7 +1,6 @@
 import React, { useState, SetStateAction } from 'react';
 import { cn } from '@/lib/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
-import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,

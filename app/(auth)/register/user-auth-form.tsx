@@ -11,13 +11,13 @@ import { Icons } from '@/components/icons';
 
 import { auth, googleProvider, db } from '../../db/firebase';
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { SetStateAction, useState } from 'react';
 import {
   Grupos,
   Roles,
   Ubicaciones,
-  Usuario,
+  UsuarioNew,
 } from '@/app/(main)/equipo/data/types';
 import {
   Popover,
@@ -46,7 +46,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
 
   async function setUser(id: string, emailProvider?: string | null) {
-    const newUser: Usuario = {
+    const newUser: UsuarioNew = {
       nombre,
       apellido,
       email: emailProvider ? emailProvider : email,
@@ -191,7 +191,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                               <CommandItem
                                 key={value}
                                 onSelect={(
-                                  currentGrupo: SetStateAction<Grupos>
+                                  currentGrupo: SetStateAction<string>
                                 ) => {
                                   setGrupos(
                                     currentGrupo === grupos
@@ -246,7 +246,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                               <CommandItem
                                 key={value}
                                 onSelect={(
-                                  currentRol: SetStateAction<Roles>
+                                  currentRol: SetStateAction<string>
                                 ) => {
                                   setRol(
                                     currentRol === rol

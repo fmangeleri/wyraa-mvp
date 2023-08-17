@@ -16,7 +16,7 @@ import React, { ChangeEvent } from 'react';
 import { SetStateAction, useState } from 'react';
 import { auth, db, storage } from '@/app/db/firebase';
 import { collection, addDoc, doc } from 'firebase/firestore';
-import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
+import { uploadBytes, ref } from 'firebase/storage';
 import {
   Areas,
   EnPresupuesto,
@@ -24,7 +24,6 @@ import {
   ImputacionNew,
   ImputacionesNew,
   Prioridades,
-  Solicitud,
   SolicitudNew,
   Tipos,
   formatEnumKey,
@@ -32,13 +31,7 @@ import {
 import { cn } from '@/lib/utils';
 import { getInvoiceData } from '@/app/functions/ocr';
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from '@/components/ui/command';
+import { Command, CommandGroup, CommandItem } from '@/components/ui/command';
 import {
   Popover,
   PopoverContent,

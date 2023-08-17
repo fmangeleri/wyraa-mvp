@@ -24,11 +24,20 @@ export function ValueDisplay({
     useSolicitudContext();
   const [displayValue, setDisplayedValue] = useState<any>();
 
+  // const value =
+  //   solicitud.factura && solicitud.factura[field] !== undefined
+  //     ? solicitud.factura[field]
+  //     : solicitud[field] !== undefined
+  //     ? solicitud[field]
+  //     : '';
+
   const value =
-    solicitud.factura && solicitud.factura[field] !== undefined
-      ? solicitud.factura[field]
-      : solicitud[field] !== undefined
-      ? solicitud[field]
+    'factura' in solicitud
+      ? field in solicitud.factura
+        ? solicitud.factura[field as keyof FacturaSimple]
+        : ''
+      : field in solicitud
+      ? solicitud[field as keyof Solicitud]
       : '';
 
   useEffect(() => {
@@ -70,7 +79,7 @@ export function ValueDisplay({
           <Label htmlFor={field}>{label}: </Label>
           <EnumSelect
             enumValues={enumValues}
-            selectedValue={editableFieldValue}
+            selectedValue={editableFieldValue as string}
             setSelectedValue={handleEnumInputChange}
           />
         </div>

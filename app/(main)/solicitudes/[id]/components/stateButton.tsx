@@ -2,9 +2,8 @@
 
 import { auth, db } from '@/app/db/firebase';
 import { Button } from '@/components/ui/button';
-import { Estados, Solicitud, formatEnumKey } from '../../data/types';
+import { Estados, formatEnumKey } from '../../data/types';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { useSolicitudContext } from '../../context/solicitudProvider';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
   Dialog,

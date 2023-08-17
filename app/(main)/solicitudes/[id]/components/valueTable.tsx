@@ -20,12 +20,12 @@ export function ValueTable({
 
   const value =
     // solicitud.factura && solicitud.factura.productos[index][field] !== undefined
-    editedProductos && editedProductos[index][field] !== undefined
+    editedProductos && editedProductos[index][field] !== null
       ? editedProductos[index][field]
       : '';
 
   useEffect(() => {
-    setEditableFieldValue(value);
+    setEditableFieldValue(value ? value : '');
     if (number && typeof value === 'number') {
       setDisplayedValue(
         new Intl.NumberFormat('en-US', {
@@ -36,7 +36,9 @@ export function ValueTable({
     }
   }, [value]);
 
-  const [editableFieldValue, setEditableFieldValue] = useState(value);
+  const [editableFieldValue, setEditableFieldValue] = useState(
+    value ? value : ''
+  );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = number

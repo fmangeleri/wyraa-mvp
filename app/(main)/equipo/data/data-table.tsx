@@ -36,14 +36,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
 import { Grupos, Roles, Ubicaciones } from './types';
@@ -206,9 +198,6 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
-                  onDoubleClick={() =>
-                    router.push(`/solicitudes/${row.original.id}`)
-                  }
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

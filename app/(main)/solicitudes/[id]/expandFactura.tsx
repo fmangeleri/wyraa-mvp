@@ -19,7 +19,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { ValueTable } from './components/valueTable';
-import { Plus, X } from 'lucide-react';
 import { DeleteRow } from './components/deleteRow';
 import { AddRow } from './components/addRow';
 import { ValueImpu } from './components/valueImpu';

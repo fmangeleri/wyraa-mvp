@@ -7,28 +7,12 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Icons } from '@/components/icons';
 import { useToast } from '@/components/ui/use-toast';
+import { Icons } from '@/components/icons';
 
-import { auth, db, googleProvider } from '../../db/firebase';
+import { auth, googleProvider } from '../../db/firebase';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { SetStateAction, useState } from 'react';
-import { Check, ChevronsUpDown } from 'lucide-react';
-import { areas } from '@/app/(main)/solicitudes/data/types';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { Command, CommandGroup, CommandItem } from '@/components/ui/command';
-import {
-  Grupos,
-  Roles,
-  Ubicaciones,
-  Usuario,
-} from '@/app/(main)/equipo/data/types';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { addDoc, collection } from 'firebase/firestore';
+import { useState } from 'react';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 

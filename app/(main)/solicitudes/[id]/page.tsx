@@ -1,13 +1,5 @@
 import { db } from '@/app/db/firebase';
-import {
-  Firma,
-  FirmaReq,
-  Imputacion,
-  ImputacionNew,
-  Solicitud,
-  SolicitudNew,
-  SolicitudReq,
-} from '../data/types';
+import { Estados, Firma, Solicitud, SolicitudReq } from '../data/types';
 import { MessageSquare } from 'lucide-react';
 import {
   Tooltip,
@@ -17,7 +9,7 @@ import {
 } from '@/components/ui/tooltip';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-import { collection, getDoc, doc, DocumentReference } from 'firebase/firestore';
+import { collection, getDoc, doc } from 'firebase/firestore';
 import { StateButton } from './components/stateButton';
 import { Badge } from '@/components/ui/badge';
 import { Invoice } from './components/invoice';
@@ -27,8 +19,6 @@ import { FacturaData } from './facturaData';
 import SolicitudProvider from './context/solicitudProvider';
 import { ExpandFactura } from './expandFactura';
 import {
-  formatFecha,
-  formatFechaDays,
   transformFactura,
   transformFirmas,
   transformImputacion,
@@ -191,9 +181,9 @@ export default async function Page({ params }: any) {
             <Invoice id={id} />
           </div>
           <div className='sticky bottom-0'>
-            {solicitud && solicitud.firmas && (
+            {solicitud?.firmas && solicitud.firmas.at(-1)?.estado && (
               <StateButton
-                estado={solicitud.firmas.at(-1)?.estado}
+                estado={solicitud.firmas.at(-1)?.estado as keyof typeof Estados}
                 id={id}
                 // userId={userId}
               />

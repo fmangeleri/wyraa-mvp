@@ -7,12 +7,7 @@ import {
   CardDescription,
   CardContent,
 } from '@/components/ui/card';
-import { db } from '@/app/db/firebase';
 import { Solicitud } from '../data/types';
-
-import { ArrowLeft } from 'lucide-react';
-import { collection, getDoc, doc } from 'firebase/firestore';
-import { useRouter } from 'next/navigation';
 
 export default async function SolicitudCard(props: { solicitud: Solicitud }) {
   const solicitud = props.solicitud;

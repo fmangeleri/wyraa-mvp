@@ -1,11 +1,4 @@
-import {
-  LineChart,
-  Line,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-} from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 const data = [
   { date: '16/06', total: 500000 },
   { date: '17/06', total: 600000 },

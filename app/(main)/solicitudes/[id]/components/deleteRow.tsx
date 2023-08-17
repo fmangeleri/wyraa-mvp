@@ -1,9 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Producto } from '../../data/types';
 import { useSolicitudContext } from '../context/solicitudProvider';
-import { Input } from '@/components/ui/input';
 import { TableCell } from '@/components/ui/table';
 import { X } from 'lucide-react';
 import {

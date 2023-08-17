@@ -1,11 +1,10 @@
 import { columns } from './data/columns';
-import { Firma, FirmaReq, Solicitud, SolicitudReq } from './data/types';
+import { FirmaReq, Solicitud, SolicitudReq } from './data/types';
 import { DataTable } from './data/data-table';
-import { db, auth } from '@/app/db/firebase';
+import { db } from '@/app/db/firebase';
 
 import { getDocs, collection, getDoc } from 'firebase/firestore';
 import SolicitudProvider from './context/solicitudProvider';
-import UserProvider from '@/app/(main)/contexts/userProvider';
 
 function formatFecha(fecha: Date): string {
   const year = fecha.getFullYear();

@@ -1,18 +1,23 @@
 import { db } from '@/app/db/firebase';
-import { DocumentReference, doc, getDoc, updateDoc } from 'firebase/firestore';
+import {
+  DocumentReference,
+  Timestamp,
+  doc,
+  getDoc,
+  updateDoc,
+} from 'firebase/firestore';
 import {
   FacturaNew,
-  FacturaOptional,
   FacturaUpdate,
   Firma,
   FirmaReq,
   Imputacion,
-  ImputacionNew,
   ImputacionesNew,
-  SolicitudNew,
-  SolicitudOptional,
   SolicitudUpdate,
 } from '../../data/types';
+
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 export const onUpdateStateImputaciones = async (
   id: string,
@@ -139,16 +144,22 @@ export function transformToNumber(value: any) {
 }
 
 export function transformFactura(factura: FacturaNew) {
+  // let fE: Date | null = null;
+  // if (factura.fechaEmision && !(factura.fechaEmision instanceof Date)) {
+  //   fE = factura.fechaEmision?.toDate();
+  // } else if (factura.fechaEmision) {
+  //   fE = factura.fechaEmision;
+  // }
   let fE: Date | null = null;
   if (factura.fechaEmision && !(factura.fechaEmision instanceof Date)) {
-    fE = factura.fechaEmision?.toDate();
+    fE = (factura.fechaEmision as Timestamp).toDate();
   } else if (factura.fechaEmision) {
     fE = factura.fechaEmision;
   }
   const fechaEmisionFormated = fE ? formatFechaDays(fE) : '';
   let fV: Date | null = null;
-  if (!(factura.fechaVencimiento instanceof Date)) {
-    fV = factura.fechaVencimiento?.toDate();
+  if (factura.fechaVencimiento && !(factura.fechaVencimiento instanceof Date)) {
+    fV = (factura.fechaVencimiento as Timestamp).toDate();
   } else {
     fV = factura.fechaVencimiento;
   }
@@ -174,8 +185,8 @@ export async function transformImputacion(imputaciones: DocumentReference) {
 
       impuData?.data?.map((imputacion, index) => {
         let fechaImpu: Date = new Date();
-        if (!(imputacion.fecha instanceof Date)) {
-          fechaImpu = imputacion.fecha.toDate();
+        if (imputacion.fecha && !(imputacion.fecha instanceof Date)) {
+          fechaImpu = (imputacion.fecha as Timestamp).toDate();
         } else {
           fechaImpu = imputacion.fecha;
         }

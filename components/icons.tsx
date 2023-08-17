@@ -24,10 +24,10 @@ import {
   Twitter,
   User,
   X,
-  type Icon as LucideIcon,
+  // type Icon as LucideIcon,
 } from 'lucide-react';
 
-export type Icon = LucideIcon;
+// export type Icon = LucideIcon;
 
 export const Icons = {
   logo: (props: LucideProps) => (

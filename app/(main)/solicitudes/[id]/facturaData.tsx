@@ -2,8 +2,6 @@
 
 import React from 'react';
 import { ValueDisplay } from './components/valueDisplay';
-import { useSolicitudContext } from './context/solicitudProvider';
-import { Solicitud } from '../data/types';
 
 export function FacturaData() {
   return (

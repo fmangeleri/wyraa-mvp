@@ -39,17 +39,7 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 
 import NuevaSolicitud from '../components/nuevaSolicitud';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
-import {
-  Solicitud,
-  estados,
-  prioridades,
-  tipos,
-  areas,
-  Prioridades,
-  Areas,
-  Estados,
-  Tipos,
-} from './types';
+import { Solicitud, Prioridades, Areas, Estados, Tipos } from './types';
 import { auth } from '@/app/db/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useSolicitudContext } from '../context/solicitudProvider';
@@ -63,7 +53,7 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<Solicitud, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -75,13 +65,13 @@ export function DataTable<TData, TValue>({
   const { solicitud, setSolicitud, showCard, setShowCard, newEstado } =
     useSolicitudContext();
 
-  const openSolCard = (sol: Solicitud) => {
-    setSolicitud(sol);
-    setShowCard(true);
-  };
-  const closeSolCard = () => {
-    setShowCard(false);
-  };
+  // const openSolCard = (sol: Solicitud) => {
+  //   setSolicitud(sol);
+  //   setShowCard(true);
+  // };
+  // const closeSolCard = () => {
+  //   setShowCard(false);
+  // };
 
   const table = useReactTable({
     data,

@@ -23,6 +23,8 @@ async function getData(): Promise<Usuario[]> {
   } catch (err) {
     console.error(err);
   }
+
+  return {} as Usuario[];
 }
 
 export default async function Page() {

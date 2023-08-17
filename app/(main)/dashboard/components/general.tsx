@@ -1,5 +1,3 @@
-import PieChart from './pie-chart';
-
 export function General() {
   return (
     <div className='p-4'>

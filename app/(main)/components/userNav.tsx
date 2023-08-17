@@ -1,16 +1,15 @@
 'use client';
 
 import { getDoc, doc, collection } from 'firebase/firestore';
-import { CreditCard, LogOut, PlusCircle, Settings } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { redirect } from 'next/navigation';
-import { User, signOut } from 'firebase/auth';
+import { signOut } from 'firebase/auth';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -20,7 +19,6 @@ import {
 
 import { db, auth } from '@/app/db/firebase';
 import { Usuario } from '@/app/(main)/equipo/data/types';
-import { useUserContext } from '@/app/(main)/contexts/userProvider';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
