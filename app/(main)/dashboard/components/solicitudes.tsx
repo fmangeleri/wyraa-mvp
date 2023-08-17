@@ -5,10 +5,6 @@ export function Solicitudes() {
     <div className='space-y-4'>
       <div className='flex items-center border-b-2 border-neutral-100 pb-2'>
         <Avatar className='h-9 w-9'>
-          <AvatarImage
-            src='/avatars/01.png'
-            alt='Avatar'
-          />
           <AvatarFallback>OM</AvatarFallback>
         </Avatar>
         <p className='ml-4 text-md font-medium leading-none'>Olivia Martin</p>
@@ -20,10 +16,6 @@ export function Solicitudes() {
       </div>
       <div className='flex items-center border-b-2 border-neutral-100 pb-2'>
         <Avatar className='h-9 w-9'>
-          <AvatarImage
-            src='/avatars/01.png'
-            alt='Avatar'
-          />
           <AvatarFallback>OM</AvatarFallback>
         </Avatar>
         <p className='ml-4 text-md font-medium leading-none'>Olivia Martin</p>
@@ -35,10 +27,6 @@ export function Solicitudes() {
       </div>
       <div className='flex items-center border-b-2 border-neutral-100 pb-2'>
         <Avatar className='h-9 w-9'>
-          <AvatarImage
-            src='/avatars/01.png'
-            alt='Avatar'
-          />
           <AvatarFallback>OM</AvatarFallback>
         </Avatar>
         <p className='ml-4 text-md font-medium leading-none'>Olivia Martin</p>
@@ -50,10 +38,6 @@ export function Solicitudes() {
       </div>
       <div className='flex items-center border-b-2 border-neutral-100 pb-2'>
         <Avatar className='h-9 w-9'>
-          <AvatarImage
-            src='/avatars/01.png'
-            alt='Avatar'
-          />
           <AvatarFallback>OM</AvatarFallback>
         </Avatar>
         <p className='ml-4 text-md font-medium leading-none'>Olivia Martin</p>
@@ -65,10 +49,6 @@ export function Solicitudes() {
       </div>
       <div className='flex items-center border-b-2 border-neutral-100 pb-2'>
         <Avatar className='h-9 w-9'>
-          <AvatarImage
-            src='/avatars/01.png'
-            alt='Avatar'
-          />
           <AvatarFallback>OM</AvatarFallback>
         </Avatar>
         <p className='ml-4 text-md font-medium leading-none'>Olivia Martin</p>
@@ -80,10 +60,6 @@ export function Solicitudes() {
       </div>
       <div className='flex items-center '>
         <Avatar className='h-9 w-9'>
-          <AvatarImage
-            src='/avatars/01.png'
-            alt='Avatar'
-          />
           <AvatarFallback>OM</AvatarFallback>
         </Avatar>
         <p className='ml-4 text-md font-medium leading-none'>Olivia Martin</p>

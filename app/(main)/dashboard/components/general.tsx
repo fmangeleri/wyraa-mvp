@@ -1,4 +1,4 @@
-import { Chart } from './pie-chart';
+import PieChart from './pie-chart';
 
 export function General() {
   return (
@@ -27,7 +27,7 @@ export function General() {
             </div>
           </div>
         </div>
-        <div>{/* <Chart /> */}</div>
+        <div>{/* <PieChart /> */}</div>
       </div>
     </div>
   );

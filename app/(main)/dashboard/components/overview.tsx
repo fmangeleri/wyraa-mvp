@@ -1,6 +1,7 @@
 'use client';
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import LineChart from './line-chart';
 
 const data = [
   {
@@ -80,6 +81,7 @@ export function Overview() {
           radius={[4, 4, 0, 0]}
         />
       </BarChart>
+      {/* <Chart /> */}
     </ResponsiveContainer>
   );
 }

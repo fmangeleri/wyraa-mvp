@@ -13,29 +13,36 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Solicitud, areas, estados, prioridades, tipos } from './types';
+import {
+  Areas,
+  Estados,
+  Prioridades,
+  Solicitud,
+  Tipos,
+  formatEnumKey,
+} from './types';
 import { DataTableColumnHeader } from './data-table-column-header';
 
 export const columns: ColumnDef<Solicitud>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label='Select all'
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label='Select row'
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: 'select',
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={table.getIsAllPageRowsSelected()}
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label='Select all'
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label='Select row'
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: 'proveedor',
     header: ({ column }) => {
@@ -59,9 +66,17 @@ export const columns: ColumnDef<Solicitud>[] = [
       />
     ),
     cell: ({ row }) => {
-      const area = areas.find((area) => area.value === row.getValue('area'));
+      // const area = areas.find((area) => area.value === row.getValue('area'));
 
-      if (!area) {
+      // if (!area) {
+      //   return null;
+      // }
+
+      const areaKey = row.getValue('area');
+      const areaLabel =
+        Areas[formatEnumKey(areaKey as string) as keyof typeof Areas];
+
+      if (!areaLabel) {
         return null;
       }
 
@@ -70,7 +85,7 @@ export const columns: ColumnDef<Solicitud>[] = [
           {/* {area.icon && (
             <area.icon className='mr-2 h-4 w-4 text-muted-foreground' />
           )} */}
-          <span>{area.label}</span>
+          <span>{areaLabel}</span>
         </div>
       );
     },
@@ -101,9 +116,16 @@ export const columns: ColumnDef<Solicitud>[] = [
       />
     ),
     cell: ({ row }) => {
-      const tipo = tipos.find((tipo) => tipo.value === row.getValue('tipo'));
+      // const tipo = tipos.find((tipo) => tipo.value === row.getValue('tipo'));
 
-      if (!tipo) {
+      // if (!tipo) {
+      //   return null;
+      // }
+
+      const tipoKey = row.getValue('tipo') as keyof typeof Tipos;
+      const tipoLabel = Tipos[tipoKey];
+
+      if (!tipoLabel) {
         return null;
       }
 
@@ -112,7 +134,7 @@ export const columns: ColumnDef<Solicitud>[] = [
           {/* {tipo.icon && (
             <tipo.icon className='mr-2 h-4 w-4 text-muted-foreground' />
           )} */}
-          <span>{tipo.label}</span>
+          <span>{tipoLabel}</span>
         </div>
       );
     },
@@ -129,20 +151,29 @@ export const columns: ColumnDef<Solicitud>[] = [
       />
     ),
     cell: ({ row }) => {
-      const estado = estados.find(
-        (estado) => estado.value === row.getValue('estado')
-      );
+      // const estado = estados.find(
+      //   (estado) => estado.value === row.getValue('estado')
+      // );
 
-      if (!estado) {
+      // if (!estado) {
+      //   return null;
+      // }
+
+      const estadoKey = row.getValue('estado') as keyof typeof Estados;
+      const estadoLabel = Estados[estadoKey];
+
+      if (!estadoLabel) {
         return null;
       }
 
       return (
         <div className='flex w-[100px] items-center'>
-          {estado.icon && (
-            <estado.icon className='mr-2 h-4 w-4 text-muted-foreground' />
-          )}
-          <span>{estado.label}</span>
+          {/* {estado.icon && (
+            <estado.icon
+              className={`mr-2 h-4 w-4 text-muted-foreground ${estado.color}`}
+            />
+          )} */}
+          <span>{estadoLabel}</span>
         </div>
       );
     },
@@ -159,20 +190,31 @@ export const columns: ColumnDef<Solicitud>[] = [
       />
     ),
     cell: ({ row }) => {
-      const prioridad = prioridades.find(
-        (prioridad) => prioridad.value === row.getValue('prioridad')
-      );
+      // const prioridad = prioridades.find(
+      //   (prioridad) => prioridad.value === row.getValue('prioridad')
+      // );
 
-      if (!prioridad) {
+      // if (!prioridad) {
+      //   return null;
+      // }
+
+      const prioridadKey = row.getValue(
+        'prioridad'
+      ) as keyof typeof Prioridades;
+      const prioridadLabel = Prioridades[prioridadKey];
+
+      if (!prioridadLabel) {
         return null;
       }
 
       return (
         <div className='flex items-center'>
-          {prioridad.icon && (
-            <prioridad.icon className='mr-2 h-4 w-4 text-muted-foreground' />
-          )}
-          <span>{prioridad.label}</span>
+          {/* {prioridad.icon && (
+            <prioridad.icon
+              className={`mr-2 h-4 w-4 text-muted-foreground ${prioridad.color}`}
+            />
+          )} */}
+          <span>{prioridadLabel}</span>
         </div>
       );
     },
@@ -200,38 +242,38 @@ export const columns: ColumnDef<Solicitud>[] = [
         currency: 'USD',
       }).format(amount);
 
-      return <div className='text-right font-medium'>{formatted}</div>;
+      return <div className='text-center font-medium'>{formatted}</div>;
     },
   },
-  {
-    id: 'actions',
-    cell: ({ row }) => {
-      const payment = row.original;
+  // {
+  //   id: 'actions',
+  //   cell: ({ row }) => {
+  //     const payment = row.original;
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant='ghost'
-              className='h-8 w-8 p-0'
-            >
-              <span className='sr-only'>Open menu</span>
-              <MoreHorizontal className='h-4 w-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
+  //     return (
+  //       <DropdownMenu>
+  //         <DropdownMenuTrigger asChild>
+  //           <Button
+  //             variant='ghost'
+  //             className='h-8 w-8 p-0'
+  //           >
+  //             <span className='sr-only'>Open menu</span>
+  //             <MoreHorizontal className='h-4 w-4' />
+  //           </Button>
+  //         </DropdownMenuTrigger>
+  //         <DropdownMenuContent align='end'>
+  //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+  //           <DropdownMenuItem
+  //             onClick={() => navigator.clipboard.writeText(payment.id)}
+  //           >
+  //             Copy payment ID
+  //           </DropdownMenuItem>
+  //           <DropdownMenuSeparator />
+  //           <DropdownMenuItem>View customer</DropdownMenuItem>
+  //           <DropdownMenuItem>View payment details</DropdownMenuItem>
+  //         </DropdownMenuContent>
+  //       </DropdownMenu>
+  //     );
+  //   },
+  // },
 ];

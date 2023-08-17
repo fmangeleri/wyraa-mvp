@@ -8,14 +8,24 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// const firebaseConfig = {
+//   apiKey: "AIzaSyB7XyeRmOFhlb7Ca_vUOI_2QMYMZ3FQDAo",
+//   authDomain: "wyraa-api-test.firebaseapp.com",
+//   projectId: "wyraa-api-test",
+//   storageBucket: "wyraa-api-test.appspot.com",
+//   messagingSenderId: "657889519286",
+//   appId: "1:657889519286:web:69aafc3fe5c703245de817",
+//   measurementId: "G-1NQCP3FW3K"
+// };
+
 const firebaseConfig = {
-  apiKey: "AIzaSyB7XyeRmOFhlb7Ca_vUOI_2QMYMZ3FQDAo",
-  authDomain: "wyraa-api-test.firebaseapp.com",
-  projectId: "wyraa-api-test",
-  storageBucket: "wyraa-api-test.appspot.com",
-  messagingSenderId: "657889519286",
-  appId: "1:657889519286:web:69aafc3fe5c703245de817",
-  measurementId: "G-1NQCP3FW3K"
+  apiKey: process.env.NEXT_PUBLIC_FB_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FB_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FB_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FB_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FB_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FB_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FB_MEASUREMENT_ID
 };
 
 // Initialize Firebase

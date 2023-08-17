@@ -10,15 +10,32 @@ import { Label } from '@/components/ui/label';
 import { Icons } from '@/components/icons';
 import { useToast } from '@/components/ui/use-toast';
 
-import { auth, googleProvider } from '../../db/firebase';
+import { auth, db, googleProvider } from '../../db/firebase';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { SetStateAction, useState } from 'react';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { areas } from '@/app/(main)/solicitudes/data/types';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Command, CommandGroup, CommandItem } from '@/components/ui/command';
+import {
+  Grupos,
+  Roles,
+  Ubicaciones,
+  Usuario,
+} from '@/app/(main)/equipo/data/types';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { addDoc, collection } from 'firebase/firestore';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const router = useRouter();
   const { toast } = useToast();
@@ -26,22 +43,22 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const signIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/solicitudes');
-      // if (contrasenaIncorrecta) {
-      //   toast: ({
-      //     title: 'Scheduled: Catch up',
-      //     description: 'Friday, February 10, 2023 at 5:57 PM',
-      //   });
-      // }
+      router.push('/dashboard');
     } catch (error) {
       console.error(error);
     }
   };
+  // if (contrasenaIncorrecta) {
+  //   toast: ({
+  //     title: 'Scheduled: Catch up',
+  //     description: 'Friday, February 10, 2023 at 5:57 PM',
+  //   });
+  // }
 
   const signInWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      router.push('/solicitudes');
+      router.push('/dashboard');
     } catch (error) {
       console.error(error);
     }

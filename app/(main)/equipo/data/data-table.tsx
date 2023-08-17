@@ -46,7 +46,8 @@ import {
 } from '@/components/ui/dialog';
 
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
-import { grupos, ubicaciones, roles } from './types';
+import { Grupos, Roles, Ubicaciones } from './types';
+// import { grupos, ubicaciones, roles } from './types';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -107,25 +108,25 @@ export function DataTable<TData, TValue>({
           className='max-w-xs'
         />
         <div className='flex flex-1 items-center space-x-2 mx-2'>
-          {table.getColumn('grupo') && (
+          {table.getColumn('grupos') && (
             <DataTableFacetedFilter
-              column={table.getColumn('grupo')}
+              column={table.getColumn('grupos')}
               title='Grupo'
-              options={grupos}
+              options={Grupos}
             />
           )}
           {table.getColumn('rol') && (
             <DataTableFacetedFilter
               column={table.getColumn('rol')}
               title='Rol'
-              options={roles}
+              options={Roles}
             />
           )}
           {table.getColumn('ubicacion') && (
             <DataTableFacetedFilter
               column={table.getColumn('ubicacion')}
               title='Ubicacion'
-              options={ubicaciones}
+              options={Ubicaciones}
             />
           )}
           {isFiltered && (

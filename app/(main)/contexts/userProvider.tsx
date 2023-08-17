@@ -9,28 +9,31 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, db } from '../../db/firebase';
+// import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { db } from '../../db/firebase';
 import { User } from 'firebase/auth';
 import { Usuario } from '../equipo/data/types';
 import { collection, doc, getDoc } from 'firebase/firestore';
 
 interface IUserContext {
   user: User | null | undefined;
-  loading: boolean;
-  userId: string;
+  setUser: Dispatch<SetStateAction<User | null | undefined>>;
+  // loading: boolean;
+  // userId: string;
   // setUserId: Dispatch<SetStateAction<string>>;
-  usuario: Usuario;
-  // setUsuario: Dispatch<SetStateAction<Usuario>>;
+  usuario: Usuario | undefined;
+  setUsuario: Dispatch<SetStateAction<Usuario | undefined>>;
 }
 
 export const UserContext = createContext<IUserContext>({
   user: undefined,
-  loading: true,
-  userId: '',
+  setUser: (): void => {},
+  // loading: true,
+  // userId: '',
   // setUserId: (): void => {},
-  usuario: {} as Usuario,
-  // setUsuario: (): void => {},
+  usuario: undefined,
+  setUsuario: (): void => {},
 });
 
 async function getData(id: string): Promise<Usuario> {
@@ -50,35 +53,66 @@ export default async function UserProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, loading] = useAuthState(auth);
-  const [userId, setUserId] = useState('');
-  const [usuario, setUsuario] = useState({} as Usuario);
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user) {
+  //     const uid = user.uid;
+  //   } else {
+  //   }
+  // });
+
+  // const [user, loading] = useAuthState(auth);
+  const [user, setUser] = useState<User | null | undefined>();
+  // const [userId, setUserId] = useState('');
+  const [usuario, setUsuario] = useState<Usuario | undefined>();
 
   // const userId: string = user?.uid as string;
   // const usuario = await getData(userId);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (user) {
-        const userId = user.uid;
-        const userData = await getData(userId);
-        setUserId(userId);
-        setUsuario(userData);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const auth = await getAuth();
+  //     const us = auth.currentUser;
+  //     setUser(us);
+  //     if (user) {
+  //       const userId = user.uid;
+  //       const userData = await getData(userId);
+  //       setUserId(userId);
+  //       setUsuario(userData);
+  //     }
+  //   };
 
-    fetchData();
-  }, [user]);
+  //   fetchData();
+  // }, []);
+
+  useEffect(() => {
+    try {
+      const fetchData = async () => {
+        const auth = await getAuth();
+        const us = auth.currentUser;
+        setUser(us);
+        const fetchData = async () => {
+          const userId = us?.uid;
+          if (userId) {
+            const userData = await getData(userId);
+            setUsuario(userData);
+          }
+        };
+      };
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
 
   return (
     <UserContext.Provider
       value={{
         user,
-        loading,
-        userId,
+        setUser,
+        // loading,
+        // userId,
         // setUserId,
         usuario,
-        // setUsuario,
+        setUsuario,
       }}
     >
       {children}

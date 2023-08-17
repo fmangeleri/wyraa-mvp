@@ -65,7 +65,6 @@ export default function DashboardPage() {
                   <General />
                 </CardContent>
               </Card>
-
               <Card>
                 <CardHeader>
                   <CardTitle>Presupuestos</CardTitle>

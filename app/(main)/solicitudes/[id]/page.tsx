@@ -1,56 +1,206 @@
-'use client';
-
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from '@/components/ui/card';
 import { db } from '@/app/db/firebase';
-import { Solicitud } from '../data/types';
-import { ArrowLeft } from 'lucide-react';
+import {
+  Firma,
+  FirmaReq,
+  Imputacion,
+  ImputacionNew,
+  Solicitud,
+  SolicitudNew,
+  SolicitudReq,
+} from '../data/types';
+import { MessageSquare } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
-import { collection, getDoc, doc } from 'firebase/firestore';
-import { useRouter } from 'next/navigation';
+import { collection, getDoc, doc, DocumentReference } from 'firebase/firestore';
+import { StateButton } from './components/stateButton';
+import { Badge } from '@/components/ui/badge';
+import { Invoice } from './components/invoice';
+import BackArrow from './components/backArrow';
+import { SolicitudData } from './solicitudData';
+import { FacturaData } from './facturaData';
+import SolicitudProvider from './context/solicitudProvider';
+import { ExpandFactura } from './expandFactura';
+import {
+  formatFecha,
+  formatFechaDays,
+  transformFactura,
+  transformFirmas,
+  transformImputacion,
+} from './context/functions';
 
-async function getData(id: string): Promise<any> {
-  // Fetch data from your API here.
-  const ref = collection(db, 'solicitudes-prueba');
-
+async function getData(id: string): Promise<Solicitud> {
+  const ref = collection(db, 'solicitudes');
   try {
     const data = await getDoc(doc(ref, id));
-    const dataFiltered: Solicitud = data.data() as Solicitud;
+    const { firmas, factura, imputaciones, ...rest } =
+      data.data() as SolicitudReq;
+    const firmasFiltered = firmas ? await transformFirmas(firmas) : [];
+    const facturaFiltered = factura ? transformFactura(factura) : null;
 
-    return dataFiltered;
+    const imputacionesFiltered = imputaciones?.data
+      ? await transformImputacion(imputaciones.data)
+      : null;
+
+    const docAll: Solicitud = {
+      ...rest,
+      factura: facturaFiltered,
+      imputaciones: {
+        data: imputacionesFiltered,
+        id: imputaciones?.id,
+      },
+      id: data.id,
+      firmas: firmasFiltered,
+    } as Solicitud;
+    return docAll;
   } catch (err) {
     console.error(err);
+    return {} as Solicitud;
   }
 }
 
 export default async function Page({ params }: any) {
-  const { id } = params;
-  const router = useRouter();
+  // const router = useRouter();
 
-  const solicitud = await getData(id as string);
+  const { id } = params;
+
+  // const [user, loading] = useAuthState(auth);
+  // const userId: string = (user?.uid as string) || '';
+
+  const solicitud: Solicitud = await getData(id as string);
+
+  // const closeSolCard = () => {
+  //   router.back();
+  // };
 
   return (
-    <Card>
-      <CardHeader>
-        <ArrowLeft onClick={() => router.back()} />
-        <CardTitle>Detalles de la solicitud</CardTitle>
-        <CardDescription>ID: {id}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p>Área: {solicitud.area}</p>
-        <p>Tema: {solicitud.tema}</p>
-        <p>Tipo: {solicitud.tipo}</p>
-        <p>Estado: {solicitud.estado}</p>
-        <p>Prioridad: {solicitud.prioridad}</p>
-        <p>Monto: {solicitud.monto}</p>
-        <p>Proveedor: {solicitud.proveedor}</p>
-        <p>Solicitante: {solicitud.solicitante.user}</p>
-      </CardContent>
-    </Card>
+    <>
+      <div className='grid grid-cols-4 gap-6 mx-6'>
+        <div className='col-span-3 relative'>
+          <div className='mx-auto mb-4'>
+            <BackArrow />
+            <div className='my-4'>
+              <h2 className='text-2xl font-bold tracking-tight'>
+                Solicitud{' '}
+                <Badge
+                  variant='green'
+                  className='align-middle'
+                >
+                  {solicitud.estado}
+                </Badge>
+              </h2>
+              <p className='text-muted-foreground'>#{solicitud.id}</p>
+            </div>
+          </div>
+          {/* <div className='flex flex-row gap-4 mt-4'>
+            <div className='flex-1'>
+              <p className='text-gray-400 text-sm'>Tipo</p>
+              <p className='text-gray-800 text-base'>{solicitud.tipo}</p>
+            </div>
+            <div className='flex-1'>
+              <p className='text-gray-400 text-sm'>En presupuesto</p>
+              <p className='text-gray-800 text-base'>Si o No</p>
+            </div>
+            <div className='flex-1'>
+              <p className='text-gray-400 text-sm'>Prioridad</p>
+              <p className='text-gray-800 text-base'>{solicitud.prioridad}</p>
+            </div>
+          </div>
+          <div className='flex flex-row gap-4 mt-4'>
+            <div className='flex-1'>
+              <p className='text-gray-400 text-sm'>Area</p>
+              <p className='text-gray-800 text-base'>{solicitud.area}</p>
+            </div>
+            <div className='flex-1'>
+              <p className='text-gray-400 text-sm'>Tema</p>
+              <p className='text-gray-800 text-base'>{solicitud.tema}</p>
+            </div>
+            <div className='flex-1'>
+              <p className='text-gray-400 text-sm'>Subtema</p>
+              <p className='text-gray-800 text-base'>subtema</p>
+            </div>
+          </div>
+          <div className='flex flex-row gap-4 mt-4'>
+            <div className='flex-1'>
+              <p className='text-gray-400 text-sm'>Empresa</p>
+              <p className='text-gray-800 text-base'>{solicitud.proveedor}</p>
+            </div>
+            <div className='flex-1'>
+              <p className='text-gray-400 text-sm'>Monto</p>
+              <p className='text-gray-800 text-base'>
+                {solicitud.monto.toLocaleString('es-AR', {
+                  style: 'currency',
+                  currency: 'ARS',
+                })}
+              </p>
+            </div>
+            <div className='flex-1'></div>
+          </div> */}
+          <SolicitudProvider>
+            <SolicitudData solicitud={solicitud} />
+            <FacturaData />
+            <ExpandFactura />
+          </SolicitudProvider>
+        </div>
+        <div className='col-span-1 pt-4'>
+          {/* <div> */}
+          <ScrollArea className='h-1/2 p-2'>
+            <ol className='relative border-l-2 border-green dark:border-gray-700 dark:text-gray-400 ml-4'>
+              {solicitud.firmas &&
+                solicitud.firmas?.map((f: Firma, index: any) => (
+                  <li
+                    className='mb-10 ml-6 flex flex-row'
+                    key={index}
+                  >
+                    <span className='absolute flex items-center justify-center w-4 h-4 bg-green rounded-full -left-2 ring-4 ring-white dark:ring-gray-900 dark:bg-gray-700'></span>
+                    <div>
+                      <h3 className='font-medium leading-tight text-gray-600'>
+                        {f.estado.charAt(0).toUpperCase() + f.estado.slice(1)}
+                      </h3>
+                      <p className='text-sm text-gray-400'>
+                        {f.user.nombre} {f.user.apellido}
+                      </p>
+                      <p className='text-xs text-gray-400'>{f.fecha}</p>
+                    </div>
+
+                    {f.comentario !== '' && (
+                      <div className='flex items-center ml-3'>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <MessageSquare />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>{f.comentario}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                    )}
+                  </li>
+                ))}
+            </ol>
+          </ScrollArea>
+          {/* </div> */}
+          <div className='my-4 h-fit'>
+            <Invoice id={id} />
+          </div>
+          <div className='sticky bottom-0'>
+            {solicitud && solicitud.firmas && (
+              <StateButton
+                estado={solicitud.firmas.at(-1)?.estado}
+                id={id}
+                // userId={userId}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

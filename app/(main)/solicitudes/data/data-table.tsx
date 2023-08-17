@@ -3,7 +3,6 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import {
   ColumnDef,
@@ -36,32 +35,24 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 
 import NuevaSolicitud from '../components/nuevaSolicitud';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
-import { Solicitud, estados, prioridades, tipos, areas } from './types';
-import SolicitudCard from '../components/solicitud';
-import { StateButton } from '../components/stateButton';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { auth, db } from '@/app/db/firebase';
+  Solicitud,
+  estados,
+  prioridades,
+  tipos,
+  areas,
+  Prioridades,
+  Areas,
+  Estados,
+  Tipos,
+} from './types';
+import { auth } from '@/app/db/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import SolicitudProvider, {
-  useSolicitudContext,
-} from '../context/solicitudProvider';
+import { useSolicitudContext } from '../context/solicitudProvider';
 // import { useUserContext } from '@/app/(main)/contexts/userProvider';
 
 interface DataTableProps<TData, TValue> {
@@ -141,28 +132,28 @@ export function DataTable<TData, TValue>({
             <DataTableFacetedFilter
               column={table.getColumn('area')}
               title='Area'
-              options={areas}
+              options={Areas}
             />
           )}
           {table.getColumn('estado') && (
             <DataTableFacetedFilter
               column={table.getColumn('estado')}
               title='Estado'
-              options={estados}
+              options={Estados}
             />
           )}
           {table.getColumn('prioridad') && (
             <DataTableFacetedFilter
               column={table.getColumn('prioridad')}
               title='Prioridad'
-              options={prioridades}
+              options={Prioridades}
             />
           )}
           {table.getColumn('tipo') && (
             <DataTableFacetedFilter
               column={table.getColumn('tipo')}
               title='Tipo'
-              options={tipos}
+              options={Tipos}
             />
           )}
           {isFiltered && (
@@ -241,11 +232,13 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
+                  className='px-4'
                   data-state={row.getIsSelected() && 'selected'}
-                  onDoubleClick={() =>
-                    // router.push(`/solicitudes/${row.original.id}`)
-                    openSolCard(row.original as Solicitud)
-                  }
+                  // onDoubleClick={() => openSolCard(row.original as Solicitud)}
+                  onClick={() => {
+                    setSolicitud(solicitud);
+                    router.push(`/solicitudes/${row.original.id}`);
+                  }}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -270,10 +263,9 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {showCard && (
+      {/* {showCard && (
         <div className='fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex items-center justify-center'>
           <div className='max-w-md w-full bg-white p-4 rounded-lg'>
-            {/* <SolicitudCard solicitud={solicitud} /> */}
             <Card>
               <CardHeader>
                 <CardTitle>Detalles de la solicitud</CardTitle>
@@ -304,21 +296,6 @@ export function DataTable<TData, TValue>({
                     Close
                   </Button>
                   <div>
-                    {/* <Button
-                      variant='destructive'
-                      className='mr-4'
-                    >
-                      Rechazar
-                    </Button>
-                    <Button
-                      variant='secondary'
-                      onClick={() =>
-                        onUpdateState(solicitud, userId, newEstado)
-                      }
-                    >
-                      Autorizar
-                    </Button> */}
-
                     <StateButton
                       estado={solicitud.firmas.at(-1)?.estado}
                       userId={userId}
@@ -329,7 +306,7 @@ export function DataTable<TData, TValue>({
             </Card>
           </div>
         </div>
-      )}
+      )} */}
       <div className='flex items-center justify-end space-x-2 py-4'>
         <Button
           variant='outline'

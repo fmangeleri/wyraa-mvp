@@ -1,9 +1,9 @@
 'use client';
 
 import { getDoc, doc, collection } from 'firebase/firestore';
-import { CreditCard, LogOut, PlusCircle, Settings, User } from 'lucide-react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useRouter } from 'next/navigation';
+import { CreditCard, LogOut, PlusCircle, Settings } from 'lucide-react';
+import { redirect } from 'next/navigation';
+import { User, signOut } from 'firebase/auth';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -18,10 +18,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { db, auth } from '../db/firebase';
-import { Usuario } from '../(main)/equipo/data/types';
-import UserProvider, { useUserContext } from '../(main)/contexts/userProvider';
-// import { UserNavContent } from './userNavContent';
+import { db, auth } from '@/app/db/firebase';
+import { Usuario } from '@/app/(main)/equipo/data/types';
+import { useUserContext } from '@/app/(main)/contexts/userProvider';
+import { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 async function getData(id: string): Promise<Usuario> {
   const ref = collection(db, 'usuarios');
@@ -35,22 +36,38 @@ async function getData(id: string): Promise<Usuario> {
   }
 }
 
-export async function UserNav() {
-  const { user, loading, userId, usuario } = useUserContext();
-  const router = useRouter();
-  // const [user, loading] = useAuthState(auth);
-  if (loading) return <h1>Loading</h1>;
-  if (!user) router.push('/login');
+export function UserNav() {
+  // const [user, setUser] = useState<User | null>(null);
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [iniciales, setIniciales] = useState<string>('AA');
+  const [user, loading] = useAuthState(auth);
 
-  // const userId: string = user?.uid as string;
-  // const usuario = await getData(userId);
+  useEffect(() => {
+    if (user) {
+      const fetchData = async () => {
+        const userId = user.uid;
+        const userData = await getData(userId);
+        setUsuario(userData);
+        const inicial1 = userData.nombre?.charAt(0).toUpperCase();
+        const inicial2 = userData.apellido?.charAt(0).toUpperCase();
+        const inis = inicial1 + inicial2;
+        setIniciales(inis);
+      };
+      fetchData().then(() => {
+        // console.log(user);
+        // console.log(usuario);
+        // console.log(iniciales);
+      });
+      console.log('fetch');
+    }
+  }, [user]);
 
-  const inicial1 = usuario.nombre.charAt(0).toUpperCase();
-  const inicial2 = usuario.apellido.charAt(0).toUpperCase();
-  const iniciales = inicial1 + inicial2;
+  const logOut = () => {
+    signOut(auth);
+    redirect('/login');
+  };
 
   return (
-    // <UserProvider>
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
@@ -58,10 +75,6 @@ export async function UserNav() {
           className='relative h-8 w-8 rounded-full'
         >
           <Avatar className='h-9 w-9'>
-            {/* <AvatarImage
-              src='/avatars/03.png'
-              alt='@shadcn'
-            /> */}
             <AvatarFallback>{iniciales}</AvatarFallback>
           </Avatar>
         </Button>
@@ -73,14 +86,16 @@ export async function UserNav() {
       >
         <DropdownMenuLabel className='font-normal'>
           <div className='flex flex-col space-y-1'>
-            <p className='text-sm font-medium leading-none'>{usuario.nombre}</p>
+            <p className='text-sm font-medium leading-none'>
+              {usuario?.nombre}
+            </p>
             <p className='text-xs leading-none text-muted-foreground'>
-              {usuario.email}
+              {usuario?.email}
             </p>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
+        {/* <DropdownMenuSeparator /> */}
+        {/* <DropdownMenuGroup>
           <DropdownMenuItem>
             <User className='mr-2 h-4 w-4' />
             <span>Profile</span>
@@ -100,15 +115,14 @@ export async function UserNav() {
             <PlusCircle className='mr-2 h-4 w-4' />
             <span>New Team</span>
           </DropdownMenuItem>
-        </DropdownMenuGroup>
+        </DropdownMenuGroup> */}
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOut className='mr-2 h-4 w-4' />
-          <span>Log out</span>
+          <span onClick={logOut}>Log out</span>
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-    // </UserProvider>
   );
 }

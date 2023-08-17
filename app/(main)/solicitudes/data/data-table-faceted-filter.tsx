@@ -26,11 +26,7 @@ import { Separator } from '@/components/ui/separator';
 interface DataTableFacetedFilter<TData, TValue> {
   column?: Column<TData, TValue>;
   title?: string;
-  options: {
-    label: string;
-    value: string;
-    icon?: LucideIcon;
-  }[];
+  options: Record<string, string>;
 }
 
 export function DataTableFacetedFilter<TData, TValue>({
@@ -72,15 +68,26 @@ export function DataTableFacetedFilter<TData, TValue>({
                     {selectedValues.size} selected
                   </Badge>
                 ) : (
-                  options
-                    .filter((option) => selectedValues.has(option.value))
-                    .map((option) => (
+                  // options
+                  //   .filter((option) => selectedValues.has(option.value))
+                  //   .map((option) => (
+                  //     <Badge
+                  //       variant='secondary'
+                  //       key={option.value}
+                  //       className='rounded-sm px-1 font-normal'
+                  //     >
+                  //       {option.label}
+                  //     </Badge>
+                  //   ))
+                  Object.values(options)
+                    .filter((value) => selectedValues.has(value))
+                    .map((value) => (
                       <Badge
                         variant='secondary'
-                        key={option.value}
+                        key={value}
                         className='rounded-sm px-1 font-normal'
                       >
-                        {option.label}
+                        {value}
                       </Badge>
                     ))
                 )}
@@ -98,7 +105,7 @@ export function DataTableFacetedFilter<TData, TValue>({
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
-              {options.map((option) => {
+              {/* {options.map((option) => {
                 const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
@@ -134,6 +141,47 @@ export function DataTableFacetedFilter<TData, TValue>({
                         {facets.get(option.value)}
                       </span>
                     )}
+                  </CommandItem>
+                );
+              })} */}
+              {Object.entries(options).map(([value, label]) => {
+                const isSelected = selectedValues.has(value);
+                return (
+                  <CommandItem
+                    key={value}
+                    onSelect={() => {
+                      if (isSelected) {
+                        selectedValues.delete(value);
+                      } else {
+                        selectedValues.add(value);
+                      }
+                      const filterValues = Array.from(selectedValues);
+                      column?.setFilterValue(
+                        filterValues.length ? filterValues : undefined
+                      );
+                    }}
+                  >
+                    <div
+                      className={cn(
+                        'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
+                        isSelected
+                          ? 'bg-primary text-primary-foreground'
+                          : 'opacity-50 [&_svg]:invisible'
+                      )}
+                    >
+                      <Check className={cn('h-4 w-4')} />
+                    </div>
+                    {/* Si tienes opciones para íconos */}
+                    {/* {option.icon && (
+          <option.icon className='mr-2 h-4 w-4 text-muted-foreground' />
+        )} */}
+                    <span>{label}</span>
+                    {/* Si tienes valores para facets */}
+                    {/* {facets?.get(value) && (
+          <span className='ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs'>
+            {facets.get(value)}
+          </span>
+        )} */}
                   </CommandItem>
                 );
               })}

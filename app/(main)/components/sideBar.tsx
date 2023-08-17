@@ -20,7 +20,8 @@ export function SideBar() {
   };
 
   return (
-    <div className='pb-12 hidden lg:block'>
+    <div className='pb-12 hidden lg:block col-span-1'>
+      {/* <div className='fixed top-0 left-0 '> */}
       <div className='space-y-4 py-4'>
         <div className='px-4 py-2'>
           <h2 className='mb-2 px-2 text-lg font-semibold tracking-tight'>
@@ -82,6 +83,7 @@ export function SideBar() {
                 Equipo
               </Button>
             </Link>
+            {/* </div> */}
           </div>
         </div>
       </div>

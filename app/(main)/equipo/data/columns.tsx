@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Usuario, roles, grupos, ubicaciones } from './types';
+import { Usuario, Grupos, Ubicaciones, Roles } from './types';
 import { DataTableColumnHeader } from './data-table-column-header';
 
 export const columns: ColumnDef<Usuario>[] = [
@@ -65,7 +65,7 @@ export const columns: ColumnDef<Usuario>[] = [
     },
   },
   {
-    accessorKey: 'grupo',
+    accessorKey: 'grupos',
     header: ({ column }) => {
       return (
         <Button
@@ -78,11 +78,17 @@ export const columns: ColumnDef<Usuario>[] = [
       );
     },
     cell: ({ row }) => {
-      const grupo = grupos.find(
-        (grupo) => grupo.value === row.getValue('grupo')
-      );
+      // const grupo = grupos.find(
+      //   (grupo) => grupo.value === row.getValue('grupo')
+      // );
 
-      if (!grupo) {
+      // if (!grupo) {
+      //   return null;
+      // }
+      const grupoKey = row.getValue('grupos') as keyof typeof Grupos;
+      const grupoLabel = Grupos[grupoKey];
+
+      if (!grupoLabel) {
         return null;
       }
 
@@ -91,7 +97,9 @@ export const columns: ColumnDef<Usuario>[] = [
           {/* {rol.icon && (
             <rol.icon className='mr-2 h-4 w-4 text-muted-foreground' />
           )} */}
-          <span>{grupo.label}</span>
+          {/* <span>{grupo.label}</span> */}
+          {/* <span>{grupo.label}</span> */}
+          <span>{grupoLabel}</span>
         </div>
       );
     },
@@ -108,11 +116,20 @@ export const columns: ColumnDef<Usuario>[] = [
       />
     ),
     cell: ({ row }) => {
-      const ubicacion = ubicaciones.find(
-        (ubi) => ubi.value === row.getValue('ubicacion')
-      );
+      // const ubicacion = ubicaciones.find(
+      //   (ubi) => ubi.value === row.getValue('ubicacion')
+      // );
 
-      if (!ubicacion) {
+      // if (!ubicacion) {
+      //   return null;
+      // }
+
+      const ubicacionKey = row.getValue(
+        'ubicacion'
+      ) as keyof typeof Ubicaciones;
+      const ubicacionLabel = Ubicaciones[ubicacionKey];
+
+      if (!ubicacionLabel) {
         return null;
       }
 
@@ -121,7 +138,7 @@ export const columns: ColumnDef<Usuario>[] = [
           {/* {tipo.icon && (
             <tipo.icon className='mr-2 h-4 w-4 text-muted-foreground' />
           )} */}
-          <span>{ubicacion.label}</span>
+          <span>{ubicacionLabel}</span>
         </div>
       );
     },
@@ -138,9 +155,16 @@ export const columns: ColumnDef<Usuario>[] = [
       />
     ),
     cell: ({ row }) => {
-      const rol = roles.find((rol) => rol.value === row.getValue('rol'));
+      // const rol = roles.find((rol) => rol.value === row.getValue('rol'));
 
-      if (!rol) {
+      // if (!rol) {
+      //   return null;
+      // }
+
+      const rolKey = row.getValue('rol') as keyof typeof Roles;
+      const rolLabel = Roles[rolKey];
+
+      if (!rolLabel) {
         return null;
       }
 
@@ -149,7 +173,7 @@ export const columns: ColumnDef<Usuario>[] = [
           {/* {rol.icon && (
             <rol.icon className='mr-2 h-4 w-4 text-muted-foreground' />
           )} */}
-          <span>{rol.label}</span>
+          <span>{rolLabel}</span>
         </div>
       );
     },
