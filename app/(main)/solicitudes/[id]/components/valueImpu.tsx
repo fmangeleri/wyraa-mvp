@@ -36,9 +36,6 @@ export function ValueImpu({
         }).format(value)
       );
     }
-    // if (date && typeof value != 'string' && typeof value != 'number') {
-    //   setDisplayedValue(formatFechaDays(value));
-    // }
   }, [date, number, value]);
 
   const [editableFieldValue, setEditableFieldValue] = useState(value);

@@ -40,6 +40,7 @@ import {
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { parseDate, transformToNumber } from '../[id]/context/functions';
+import { toast } from '@/components/ui/use-toast';
 
 interface Props {
   onFileUpload: (file: File) => void;
@@ -151,7 +152,6 @@ export default function NuevaSolicitud() {
           });
         }
       }
-      console.log(nuevaSolicitud);
       const solicitudesCollectionRef = collection(db, 'solicitudes');
       const newDoc = await addDoc(solicitudesCollectionRef, nuevaSolicitud);
       if (file) {
@@ -160,11 +160,16 @@ export default function NuevaSolicitud() {
           console.log(snapshot);
         });
       }
+      window.location.reload();
     } catch (err) {
       console.error(err);
+      toast({
+        variant: 'destructive',
+        title: 'Hubo un error',
+        description: 'Complete todos los campos',
+      });
+      window.location.reload();
     }
-
-    window.location.reload();
   };
 
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {

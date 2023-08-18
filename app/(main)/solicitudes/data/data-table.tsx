@@ -62,8 +62,7 @@ export function DataTable<TData, TValue>({
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const { solicitud, setSolicitud, showCard, setShowCard, newEstado } =
-    useSolicitudContext();
+  // const { solicitud } = useSolicitudContext();
 
   // const openSolCard = (sol: Solicitud) => {
   //   setSolicitud(sol);
@@ -226,7 +225,7 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && 'selected'}
                   // onDoubleClick={() => openSolCard(row.original as Solicitud)}
                   onClick={() => {
-                    setSolicitud(solicitud);
+                    // setSolicitud(solicitud);
                     router.push(`/solicitudes/${row.original.id}`);
                   }}
                 >

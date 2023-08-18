@@ -12,7 +12,7 @@ import { Icons } from '@/components/icons';
 
 import { auth, googleProvider } from '../../db/firebase';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -20,6 +20,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [wrongPass, setWrongPass] = useState(false);
 
   const router = useRouter();
   const { toast } = useToast();
@@ -30,14 +31,23 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       router.push('/dashboard');
     } catch (error) {
       console.error(error);
+      setWrongPass(true);
     }
   };
-  // if (contrasenaIncorrecta) {
-  //   toast: ({
-  //     title: 'Scheduled: Catch up',
-  //     description: 'Friday, February 10, 2023 at 5:57 PM',
-  //   });
-  // }
+
+  useEffect(() => {
+    if (wrongPass) {
+      toast({
+        variant: 'destructive',
+        title: 'Contraseña y/o mail incorrecto',
+        // description: 'Contraseña incorrecta',
+      });
+      setTimeout(() => {
+        setWrongPass(false);
+      }, 2000);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [wrongPass]);
 
   const signInWithGoogle = async () => {
     try {
@@ -85,7 +95,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               className='sr-only'
               htmlFor='password'
             >
-              Pasword
+              Contraseña
             </Label>
             <Input
               id='password'
@@ -105,7 +115,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             {isLoading && (
               <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
             )}
-            Sign In with Email
+            Ingresar
           </Button>
         </div>
       </form>
@@ -115,7 +125,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
         <div className='relative flex justify-center text-xs uppercase'>
           <span className='bg-background px-2 text-muted-foreground'>
-            Or continue with
+            O continuar con
           </span>
         </div>
       </div>

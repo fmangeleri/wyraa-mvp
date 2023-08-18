@@ -106,7 +106,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         <form onSubmit={onSubmit}>
           <div className='grid gap-4'>
             <div className='grid gap-2'>
-              <div className='grid grid-cols-2 gap-2'>
+              <div className='grid grid-cols-2 gap-2 mb-2'>
                 <div>
                   <Label
                     // className='sr-only'
@@ -329,7 +329,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                 {isLoading && (
                   <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
                 )}
-                Sign In with Email
+                Crear cuenta
               </Button>
             </div>
           </form>
@@ -339,7 +339,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </div>
             <div className='relative flex justify-center text-xs uppercase'>
               <span className='bg-background px-2 text-muted-foreground'>
-                Or continue with
+                O continuar con
               </span>
             </div>
           </div>

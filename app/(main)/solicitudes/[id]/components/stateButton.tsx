@@ -68,34 +68,6 @@ export function StateButton(props: {
     window.location.reload();
   };
 
-  // let label = '';
-  // var showRechazar = true;
-  // switch (props.estado) {
-  //   case 'solicitado':
-  //     label = 'Autorizar';
-  //     setNewEstado('autorizado');
-  //     break;
-  //   case 'autorizado':
-  //     label = 'Controlar';
-  //     setNewEstado('controlado');
-
-  //     break;
-  //   case 'rechazado':
-  //     showRechazar = false;
-  //     break;
-  //   case 'controlado':
-  //     label = 'Pagar';
-  //     setNewEstado('pagado');
-  //     break;
-  //   case 'pagado':
-  //     label = 'Finalizar';
-  //     setNewEstado('finalizado');
-  //     break;
-  //   case 'finalizado':
-  //     showRechazar = false;
-  //     break;
-  // }
-
   useEffect(() => {
     const fetchData = async () => {
       if (user) {

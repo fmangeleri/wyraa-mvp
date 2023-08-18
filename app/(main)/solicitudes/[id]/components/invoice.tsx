@@ -43,22 +43,19 @@ export function Invoice({ id }: { id: string }) {
         .then((metadata) => {
           if (metadata.contentType) {
             const fileNameParts = metadata.contentType.split('/');
-            console.log(fileNameParts);
             const fileExtension = fileNameParts[fileNameParts.length - 1];
-            console.log(fileExtension);
             setExtension(fileExtension);
-            console.log('Extensión del archivo:', extension);
           }
         })
         .catch((error) => {
           console.log(error);
         });
     }
-  }, [extension, id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   const openInvoice = () => {
     if (url) {
-      // Abrir el archivo en una nueva pestaña del navegador
       window.open(url, '_blank');
     }
   };
@@ -123,7 +120,7 @@ export function Invoice({ id }: { id: string }) {
 
   return (
     <>
-      {url ? (
+      {url && extension ? (
         <>
           {extension === 'pdf' ? (
             <embed

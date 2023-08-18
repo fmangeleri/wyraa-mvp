@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pencil } from 'lucide-react';
 
 import {
@@ -18,7 +18,10 @@ export function SolicitudData({ solicitud }: { solicitud: Solicitud }) {
   const { setSolicitud, setOnEdit, onEdit, saveAllChanges } =
     useSolicitudContext();
 
-  setSolicitud(solicitud);
+  useEffect(() => {
+    setSolicitud(solicitud);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [solicitud]);
 
   const handleEdit = () => {
     setOnEdit(!onEdit);

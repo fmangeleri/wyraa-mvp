@@ -4,7 +4,6 @@ import { DataTable } from './data/data-table';
 import { db } from '@/app/db/firebase';
 
 import { getDocs, collection, getDoc } from 'firebase/firestore';
-import SolicitudProvider from './context/solicitudProvider';
 
 function formatFecha(fecha: Date): string {
   const year = fecha.getFullYear();
@@ -63,13 +62,9 @@ export default async function Page() {
   const data = await getData();
 
   return (
-    <SolicitudProvider>
-      {/* <UserProvider> */}
-      <DataTable<Solicitud, any>
-        columns={columns}
-        data={data}
-      />
-      {/* </UserProvider> */}
-    </SolicitudProvider>
+    <DataTable<Solicitud, any>
+      columns={columns}
+      data={data}
+    />
   );
 }
