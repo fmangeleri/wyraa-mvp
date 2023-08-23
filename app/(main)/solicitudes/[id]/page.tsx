@@ -78,7 +78,7 @@ export default async function Page({ params }: any) {
               <h2 className='text-2xl font-bold tracking-tight'>
                 Solicitud{' '}
                 <Badge
-                  variant='green'
+                  // variant='green'
                   className='align-middle'
                 >
                   {solicitud.estado}

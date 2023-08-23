@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   DialogContent,
   DialogDescription,
@@ -191,12 +191,7 @@ export default function NuevaSolicitud() {
         {/* <div className='grid grid-cols-3 gap-4'> */}
         <div className='flex flex-row gap-2'>
           <div className='flex-1'>
-            <Label
-              htmlFor='tipo'
-              className='text-right'
-            >
-              Tipo
-            </Label>
+            <Label className='text-right'>Tipo</Label>
             <Popover
               open={openTipo}
               onOpenChange={setOpenTipo}
@@ -245,12 +240,7 @@ export default function NuevaSolicitud() {
             </Popover>
           </div>
           <div className='flex-1'>
-            <Label
-              htmlFor='prioridad'
-              className='text-right'
-            >
-              Prioridad
-            </Label>
+            <Label className='text-right'>Prioridad</Label>
             <Popover
               open={openPrioridad}
               onOpenChange={setOpenPrioridad}
@@ -304,12 +294,7 @@ export default function NuevaSolicitud() {
             </Popover>
           </div>
           <div className='flex-1'>
-            <Label
-              htmlFor='enPresupuesto'
-              className='text-right'
-            >
-              Esta en Presupuesto?
-            </Label>
+            <Label className='text-right'>Esta en Presupuesto?</Label>
             <Popover
               open={openEnPresupuesto}
               onOpenChange={setOpenEnPresupuesto}
@@ -368,12 +353,7 @@ export default function NuevaSolicitud() {
         </div>
         <div className='flex flex-row gap-2'>
           <div className='flex-1'>
-            <Label
-              htmlFor='area'
-              className='text-right'
-            >
-              Area
-            </Label>
+            <Label className='text-right'>Area</Label>
             <Popover
               open={openArea}
               onOpenChange={setOpenArea}
@@ -529,12 +509,12 @@ export default function NuevaSolicitud() {
       </div>
       <DialogFooter>
         <DialogClose>
-          <Button
-            type='submit'
+          <span
+            className={buttonVariants({ variant: 'default' })}
             onClick={handleSubmit}
           >
             Crear Solicitud
-          </Button>
+          </span>
         </DialogClose>
       </DialogFooter>
     </DialogContent>

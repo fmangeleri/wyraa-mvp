@@ -27,7 +27,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   DropdownMenu,
@@ -42,8 +42,6 @@ import { DataTableFacetedFilter } from './data-table-faceted-filter';
 import { Solicitud, Prioridades, Areas, Estados, Tipos } from './types';
 import { auth } from '@/app/db/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useSolicitudContext } from '../context/solicitudProvider';
-// import { useUserContext } from '@/app/(main)/contexts/userProvider';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -160,7 +158,9 @@ export function DataTable<TData, TValue>({
         <div className='mx-4'>
           <Dialog>
             <DialogTrigger>
-              <Button variant='secondary'>Nueva Solicitud</Button>
+              <span className={buttonVariants({ variant: 'secondary' })}>
+                Nueva Solicitud
+              </span>
             </DialogTrigger>
             <NuevaSolicitud />
           </Dialog>
@@ -252,50 +252,6 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {/* {showCard && (
-        <div className='fixed top-0 left-0 w-screen h-screen bg-gray-800 bg-opacity-50 flex items-center justify-center'>
-          <div className='max-w-md w-full bg-white p-4 rounded-lg'>
-            <Card>
-              <CardHeader>
-                <CardTitle>Detalles de la solicitud</CardTitle>
-                <CardDescription>ID: {solicitud.id}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Área: {solicitud.area}</p>
-                <p>Tema: {solicitud.tema}</p>
-                <p>Tipo: {solicitud.tipo}</p>
-                <p>Estado: {solicitud.estado}</p>
-                <p>Prioridad: {solicitud.prioridad}</p>
-                <p>Monto: {solicitud.monto}</p>
-                <p>Proveedor: {solicitud.proveedor}</p>
-                <p>Firmas:</p>
-                {solicitud.firmas?.map((f, index) => (
-                  <p key={index}>
-                    {'       '}-{' '}
-                    {f.estado.charAt(0).toUpperCase() + f.estado.slice(1)} por{' '}
-                    {f.user.nombre} {f.user.apellido}
-                  </p>
-                ))}
-                <div className='flex justify-between mt-4'>
-                  <Button
-                    variant='outline'
-                    className='mr-4'
-                    onClick={() => closeSolCard()}
-                  >
-                    Close
-                  </Button>
-                  <div>
-                    <StateButton
-                      estado={solicitud.firmas.at(-1)?.estado}
-                      userId={userId}
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      )} */}
       <div className='flex items-center justify-end space-x-2 py-4'>
         <Button
           variant='outline'

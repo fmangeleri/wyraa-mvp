@@ -54,7 +54,11 @@ export function ExpandFactura() {
                   // solicitud.factura.productos?.map((product, index) => (
                   editedProductos?.map((product, index) => (
                     <TableRow key={index}>
-                      {onEdit && <DeleteRow index={index} />}
+                      {onEdit && (
+                        <TableCell className='flex items-center justify-center'>
+                          <DeleteRow index={index} />
+                        </TableCell>
+                      )}
                       <TableCell className='font-medium'>
                         <ValueTable
                           field='descripcion'
@@ -125,10 +129,12 @@ export function ExpandFactura() {
                   editedImputaciones?.map((imputacion, index) => (
                     <TableRow key={index}>
                       {onEdit && (
-                        <DeleteRow
-                          index={index}
-                          imputaciones={true}
-                        />
+                        <TableCell className='flex items-center justify-center'>
+                          <DeleteRow
+                            index={index}
+                            imputaciones={true}
+                          />
+                        </TableCell>
                       )}
                       <TableCell className='font-medium'>
                         <ValueImpu

@@ -10,7 +10,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { db, storage } from '@/app/db/firebase';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { getInvoiceData } from '@/app/functions/ocr';
 import { doc, updateDoc } from 'firebase/firestore';
 import { DialogHeader } from '@/components/ui/dialog';
@@ -142,9 +142,12 @@ export function Invoice({ id }: { id: string }) {
       ) : (
         <Dialog>
           <DialogTrigger asChild>
-            <Button onClick={() => setButtonText('Cancelar')}>
+            <span
+              className={buttonVariants({ variant: 'default' })}
+              onClick={() => setButtonText('Cancelar')}
+            >
               {buttonText}
-            </Button>
+            </span>
           </DialogTrigger>
           <DialogContent className='max-h-max my-4'>
             <DialogHeader>

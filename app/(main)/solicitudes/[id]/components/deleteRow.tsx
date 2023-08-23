@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { DialogClose } from '@radix-ui/react-dialog';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 
 export function DeleteRow({
   index,
@@ -30,9 +30,9 @@ export function DeleteRow({
   return (
     <Dialog>
       <DialogTrigger>
-        <TableCell className='flex items-center justify-center'>
-          <X className='text-red-500 transition-transform transform hover:scale-110' />
-        </TableCell>
+        {/* <TableCell className='flex items-center justify-center'> */}
+        <X className='text-red-500 transition-transform transform hover:scale-110' />
+        {/* </TableCell> */}
       </DialogTrigger>
       <DialogContent className='my-4'>
         <DialogHeader>
@@ -43,17 +43,18 @@ export function DeleteRow({
         </DialogHeader>
         <DialogFooter className='flex justify-center mt-4'>
           <DialogClose>
-            <Button variant='destructive'>Cancelar</Button>
+            <span className={buttonVariants({ variant: 'destructive' })}>
+              Cancelar
+            </span>
           </DialogClose>
 
           <DialogClose>
-            <Button
-              variant='green'
-              type='submit'
+            <span
+              className={buttonVariants({ variant: 'outline' })}
               onClick={handleInputChange}
             >
               Confirmar
-            </Button>
+            </span>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
