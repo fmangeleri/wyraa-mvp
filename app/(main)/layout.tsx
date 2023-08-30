@@ -4,6 +4,8 @@ import { IncomingMessage } from 'http';
 import { LayoutHead } from './components/layout-head';
 import { AuthCheck } from './components/authCheck';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Layout({
   children,
   req,

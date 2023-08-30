@@ -41,6 +41,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { parseDate, transformToNumber } from '../[id]/context/functions';
 import { toast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   onFileUpload: (file: File) => void;
@@ -61,6 +62,8 @@ export default function NuevaSolicitud() {
   const [openTipo, setOpenTipo] = useState(false);
   const [comentario, setComentario] = useState('');
   const [file, setFile] = useState<File>();
+
+  const router = useRouter();
 
   const [user, loading] = useAuthState(auth);
   const userId: string = user?.uid as string;
@@ -160,7 +163,7 @@ export default function NuevaSolicitud() {
           console.log(snapshot);
         });
       }
-      window.location.reload();
+      router.refresh();
     } catch (err) {
       console.error(err);
       toast({
@@ -168,7 +171,6 @@ export default function NuevaSolicitud() {
         title: 'Hubo un error',
         description: 'Complete todos los campos',
       });
-      window.location.reload();
     }
   };
 

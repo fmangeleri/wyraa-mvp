@@ -25,8 +25,8 @@ import {
 } from './context/functions';
 
 async function getData(id: string): Promise<Solicitud> {
-  const ref = collection(db, 'solicitudes');
   try {
+    const ref = collection(db, 'solicitudes');
     const data = await getDoc(doc(ref, id));
     const { firmas, factura, imputaciones, ...rest } =
       data.data() as SolicitudReq;
