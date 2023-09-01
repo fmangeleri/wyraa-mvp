@@ -24,12 +24,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { FacturaNew } from '../../data/types';
 import { parseDate, transformToNumber } from '../context/functions';
+import { useRouter } from 'next/navigation';
 
 export function Invoice({ id }: { id: string }) {
   const [url, setUrl] = useState<string>('');
   const [file, setFile] = useState<File>();
   const [extension, setExtension] = useState<string>();
   const [buttonText, setButtonText] = useState<string>('Agregar Factura');
+
+  const router = useRouter();
 
   useEffect(() => {
     const invoiceRef = ref(storage, `facturas/${id}`);
@@ -104,7 +107,7 @@ export function Invoice({ id }: { id: string }) {
         await uploadBytes(storageRef, file).then((snapshot) => {
           console.log(snapshot);
         });
-        window.location.reload();
+        router.refresh();
       }
     } catch (err) {
       console.error(err);

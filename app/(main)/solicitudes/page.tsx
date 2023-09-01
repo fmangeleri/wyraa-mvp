@@ -6,7 +6,9 @@ import { db } from '@/app/db/firebase';
 import { getDocs, collection, getDoc } from 'firebase/firestore';
 
 // export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+// export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+// import { headers } from 'next/headers';
 
 function formatFecha(fecha: Date): string {
   const year = fecha.getFullYear();

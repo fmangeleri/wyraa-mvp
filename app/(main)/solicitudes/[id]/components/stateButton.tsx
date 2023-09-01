@@ -1,7 +1,7 @@
 'use client';
 
 import { auth, db } from '@/app/db/firebase';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Estados, formatEnumKey } from '../../data/types';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -19,6 +19,7 @@ import { Input } from '@/components/ui/input';
 import { useEffect, useState } from 'react';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { Roles, Usuario } from '@/app/(main)/equipo/data/types';
+import { useRouter } from 'next/navigation';
 
 export function StateButton(props: {
   estado: keyof typeof Estados;
@@ -35,6 +36,8 @@ export function StateButton(props: {
   const [label, setLabel] = useState('');
   const [showRechazar, setShowRechazar] = useState(false);
   const [usuario, setUsuario] = useState<Usuario | undefined>();
+
+  const router = useRouter();
 
   const onUpdateState = async (
     // solicitud: Solicitud,
@@ -65,7 +68,7 @@ export function StateButton(props: {
         console.log(error);
       }
     }
-    window.location.reload();
+    router.refresh();
   };
 
   useEffect(() => {
@@ -147,12 +150,13 @@ export function StateButton(props: {
         {showRechazar && (
           <Dialog>
             <DialogTrigger className='flex-1'>
-              <Button
-                variant='destructive'
-                className='w-full mr-4'
+              <span
+                className={`w-full mr-4 ${buttonVariants({
+                  variant: 'destructive',
+                })}`}
               >
                 Rechazar
-              </Button>
+              </span>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>

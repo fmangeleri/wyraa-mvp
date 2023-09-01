@@ -6,7 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Command, CommandGroup, CommandItem } from '@/components/ui/command';
 
 interface EnumSelectProps<T extends Record<string, string>> {
@@ -29,17 +29,18 @@ export function EnumSelect<T extends Record<string, string>>({
         onOpenChange={setOpen}
       >
         <PopoverTrigger asChild>
-          <Button
-            variant='outline'
-            role='combobox'
+          <span
+            className={`w-full justify-between ${buttonVariants({
+              variant: 'outline',
+            })}`}
+            // role='combobox'
             aria-expanded={open}
-            className='w-full justify-between'
           >
             {selectedValue
               ? enumValues[selectedValue as keyof T]
               : 'Seleccionar...'}
             <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-          </Button>
+          </span>
         </PopoverTrigger>
         <PopoverContent className='w-full p-0'>
           <Command>
