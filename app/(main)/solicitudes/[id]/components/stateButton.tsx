@@ -64,6 +64,13 @@ export function StateButton(props: {
       };
       try {
         await updateDoc(ref, solicitudUpdated);
+        await fetch(`/api/send/update-solicitud/${ref.id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ solicitud: solicitudOld, user: usuario }),
+        });
       } catch (error) {
         console.log(error);
       }
@@ -146,7 +153,7 @@ export function StateButton(props: {
 
   if (showRechazar || label !== '') {
     return (
-      <div className='bg-white w-full flex justify-center items-center py-3'>
+      <div className='bg-white w-full flex justify-center items-center py-3 gap-2'>
         {showRechazar && (
           <Dialog>
             <DialogTrigger className='flex-1'>

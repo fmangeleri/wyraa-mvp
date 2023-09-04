@@ -1,3 +1,48 @@
+export enum Roles {
+  Admin = "Admin",
+  Director = "Director",
+  Pagos = "Pagos",
+  Contador = "Contador",
+  Solicitante = "Solicitante",
+}
+
+export enum Grupos {
+  Marketing = "Marketing",
+  Producto = "Producto",
+  Logistica = "Logistica",
+  Finanzas = "Finanzas",
+  RecursosHumanos = "Recursos Humanos",
+  Legales = "Legales",
+  Informatica = "Informatica",
+}
+
+export enum Ubicaciones {
+  Centro = "Centro",
+  Pilar = "Pilar",
+}
+
+export type Usuario = {
+  id: string,
+  nombre: string,
+  apellido: string,
+  email: string,
+  empresa: string,
+  rol: Roles,
+  grupos: Grupos,
+  ubicacion: Ubicaciones
+};
+
+export type UsuarioNew = {
+  nombre: string,
+  apellido: string,
+  email: string,
+  empresa: string,
+  rol: Roles,
+  grupos: Grupos,
+  ubicacion: Ubicaciones
+};
+
+
 
 // export const roles = [
 //   {
@@ -59,47 +104,3 @@
 //     label: "Pilar",
 //   },
 // ]
-
-export enum Roles {
-  Admin = "Admin",
-  Director = "Director",
-  Pagos = "Pagos",
-  Contador = "Contador",
-  Solicitante = "Solicitante",
-}
-
-export enum Grupos {
-  Marketing = "Marketing",
-  Producto = "Producto",
-  Logistica = "Logistica",
-  Finanzas = "Finanzas",
-  RecursosHumanos = "Recursos Humanos",
-  Legales = "Legales",
-  Informatica = "Informatica",
-}
-
-export enum Ubicaciones {
-  Centro = "Centro",
-  Pilar = "Pilar",
-}
-
-export type Usuario = {
-  id: string,
-  nombre: string,
-  apellido: string,
-  email: string,
-  empresa: string,
-  rol: Roles,
-  grupos: Grupos,
-  ubicacion: Ubicaciones
-};
-
-export type UsuarioNew = {
-  nombre: string,
-  apellido: string,
-  email: string,
-  empresa: string,
-  rol: Roles,
-  grupos: Grupos,
-  ubicacion: Ubicaciones
-};

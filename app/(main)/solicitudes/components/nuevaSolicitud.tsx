@@ -15,7 +15,15 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 import React, { ChangeEvent } from 'react';
 import { SetStateAction, useState } from 'react';
 import { auth, db, storage } from '@/app/db/firebase';
-import { collection, addDoc, doc } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  query,
+  where,
+  getDocs,
+} from 'firebase/firestore';
 import { uploadBytes, ref } from 'firebase/storage';
 import {
   Areas,
@@ -42,6 +50,7 @@ import { DialogClose } from '@radix-ui/react-dialog';
 import { parseDate, transformToNumber } from '../[id]/context/functions';
 import { toast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
+import { Usuario } from '../../equipo/data/types';
 
 interface Props {
   onFileUpload: (file: File) => void;
@@ -163,6 +172,32 @@ export default function NuevaSolicitud() {
           console.log(snapshot);
         });
       }
+      const userRef = doc(db, 'usuarios', userId);
+      const snap = await getDoc(userRef);
+      const usuario = snap.data() as Usuario;
+
+      const emails: string[] = [usuario.email];
+
+      const usersRef = collection(db, 'usuarios');
+      const usersQ = query(usersRef, where('rol', 'in', ['Admin', 'Director']));
+      const usersSnapshot = await getDocs(usersQ);
+      usersSnapshot.forEach((doc) => {
+        const data = doc.data();
+        emails.push(data.email);
+      });
+
+      await fetch(`/api/send/nueva-solicitud/${newDoc.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          solicitud: nuevaSolicitud,
+          user: usuario,
+          emails,
+        }),
+      });
+
       router.refresh();
     } catch (err) {
       console.error(err);
