@@ -28,7 +28,10 @@ export function SideBar() {
             Wyraa
           </h2>
           <div className='space-y-1'>
-            <Link href='/dashboard'>
+            <Link
+              href='/dashboard'
+              prefetch={false}
+            >
               <Button
                 variant={activeButton === 'dashboard' ? 'secondary' : 'ghost'}
                 size='sm'
@@ -39,7 +42,10 @@ export function SideBar() {
                 Dashboard
               </Button>
             </Link>
-            <Link href='/solicitudes'>
+            <Link
+              href='/solicitudes'
+              prefetch={false}
+            >
               <Button
                 variant={activeButton === 'solicitudes' ? 'secondary' : 'ghost'}
                 size='sm'
