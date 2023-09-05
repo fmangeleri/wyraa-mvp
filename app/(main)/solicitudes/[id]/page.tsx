@@ -89,50 +89,6 @@ export default async function Page({ params }: any) {
               <p className='text-muted-foreground'>#{solicitud.id}</p>
             </div>
           </div>
-          {/* <div className='flex flex-row gap-4 mt-4'>
-            <div className='flex-1'>
-              <p className='text-gray-400 text-sm'>Tipo</p>
-              <p className='text-gray-800 text-base'>{solicitud.tipo}</p>
-            </div>
-            <div className='flex-1'>
-              <p className='text-gray-400 text-sm'>En presupuesto</p>
-              <p className='text-gray-800 text-base'>Si o No</p>
-            </div>
-            <div className='flex-1'>
-              <p className='text-gray-400 text-sm'>Prioridad</p>
-              <p className='text-gray-800 text-base'>{solicitud.prioridad}</p>
-            </div>
-          </div>
-          <div className='flex flex-row gap-4 mt-4'>
-            <div className='flex-1'>
-              <p className='text-gray-400 text-sm'>Area</p>
-              <p className='text-gray-800 text-base'>{solicitud.area}</p>
-            </div>
-            <div className='flex-1'>
-              <p className='text-gray-400 text-sm'>Tema</p>
-              <p className='text-gray-800 text-base'>{solicitud.tema}</p>
-            </div>
-            <div className='flex-1'>
-              <p className='text-gray-400 text-sm'>Subtema</p>
-              <p className='text-gray-800 text-base'>subtema</p>
-            </div>
-          </div>
-          <div className='flex flex-row gap-4 mt-4'>
-            <div className='flex-1'>
-              <p className='text-gray-400 text-sm'>Empresa</p>
-              <p className='text-gray-800 text-base'>{solicitud.proveedor}</p>
-            </div>
-            <div className='flex-1'>
-              <p className='text-gray-400 text-sm'>Monto</p>
-              <p className='text-gray-800 text-base'>
-                {solicitud.monto.toLocaleString('es-AR', {
-                  style: 'currency',
-                  currency: 'ARS',
-                })}
-              </p>
-            </div>
-            <div className='flex-1'></div>
-          </div> */}
           <SolicitudProvider>
             <SolicitudData solicitud={solicitud} />
             <FacturaData />

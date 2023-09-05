@@ -47,6 +47,11 @@ export const columns: ColumnDef<Solicitud>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const prov: string = row.getValue('proveedor');
+
+      return <div className='ml-4 font-medium'>{prov}</div>;
+    },
   },
   {
     accessorKey: 'area',

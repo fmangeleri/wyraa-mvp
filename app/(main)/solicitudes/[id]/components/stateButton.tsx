@@ -2,8 +2,16 @@
 
 import { auth, db } from '@/app/db/firebase';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { Estados, formatEnumKey } from '../../data/types';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { Estados, Firma, formatEnumKey } from '../../data/types';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
   Dialog,
@@ -20,6 +28,9 @@ import { useEffect, useState } from 'react';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { Roles, Usuario } from '@/app/(main)/equipo/data/types';
 import { useRouter } from 'next/navigation';
+import { toast } from '@/components/ui/use-toast';
+import { reemplazarUltimaLetraConA } from '@/components/email-templates/update-solicitud';
+import { transformFirmas } from '../context/functions';
 
 export function StateButton(props: {
   estado: keyof typeof Estados;
@@ -64,17 +75,53 @@ export function StateButton(props: {
       };
       try {
         await updateDoc(ref, solicitudUpdated);
+
+        const uniqueEmails = usuario?.email
+          ? new Set([usuario.email])
+          : new Set();
+
+        const { firmas } = solicitudOld;
+        const firmasFiltered: Firma[] = firmas
+          ? await transformFirmas(firmas)
+          : [];
+        firmasFiltered.forEach((f) => {
+          uniqueEmails.add(f.user.email);
+        });
+
+        const usersRef = collection(db, 'usuarios');
+        const usersQ = query(
+          usersRef,
+          where('rol', 'in', ['Admin', 'Director'])
+        );
+        const usersSnapshot = await getDocs(usersQ);
+        usersSnapshot.forEach((doc) => {
+          const data = doc.data();
+          uniqueEmails.add(data.email);
+        });
+
+        const emails = Array.from(uniqueEmails);
+
         await fetch(`/api/send/update-solicitud/${ref.id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ solicitud: solicitudOld, user: usuario }),
+          body: JSON.stringify({
+            solicitud: solicitudOld,
+            user: usuario,
+            emails,
+            newEstado,
+          }),
+        });
+        toast({
+          variant: 'default',
+          title: `Solicitud ${reemplazarUltimaLetraConA(newEstado)} con Exito`,
         });
       } catch (error) {
         console.log(error);
       }
     }
+
     router.refresh();
   };
 

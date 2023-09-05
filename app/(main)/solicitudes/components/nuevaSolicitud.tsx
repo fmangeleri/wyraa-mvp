@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, Loader2 } from 'lucide-react';
 
 import React, { ChangeEvent } from 'react';
 import { SetStateAction, useState } from 'react';
@@ -197,7 +197,10 @@ export default function NuevaSolicitud() {
           emails,
         }),
       });
-
+      toast({
+        variant: 'default',
+        title: 'Solicitud Creada con Exito',
+      });
       router.refresh();
     } catch (err) {
       console.error(err);
@@ -283,18 +286,19 @@ export default function NuevaSolicitud() {
               onOpenChange={setOpenPrioridad}
             >
               <PopoverTrigger asChild>
-                <Button
-                  variant='outline'
-                  role='combobox'
+                <span
+                  className={`w-full justify-between ${buttonVariants({
+                    variant: 'outline',
+                  })}`}
+                  // role='combobox'
                   aria-expanded={openPrioridad}
-                  className='w-full justify-between'
                 >
                   {prioridad
                     ? // ? prioridades.find((p) => p.value === prioridad)?.label
                       Prioridades[prioridad as keyof typeof Prioridades]
                     : 'Seleccionar...'}
                   <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-                </Button>
+                </span>
               </PopoverTrigger>
               <PopoverContent className='w-full p-0'>
                 <Command>

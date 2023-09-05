@@ -1,6 +1,22 @@
 import { Usuario } from '@/app/(main)/equipo/data/types';
-import { formatFecha } from '@/app/(main)/solicitudes/[id]/context/functions';
 import { SolicitudNew } from '@/app/(main)/solicitudes/data/types';
+
+import {
+  Body,
+  Container,
+  Column,
+  Head,
+  Hr,
+  Html,
+  Img,
+  Link,
+  Preview,
+  Row,
+  Section,
+  Text,
+  Button,
+  Tailwind,
+} from '@react-email/components';
 import * as React from 'react';
 
 interface EmailTemplateProps {
@@ -14,84 +30,187 @@ export const NewSolicitudTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   user,
   id,
 }) => (
-  <div className='max-w-md mx-auto p-4 bg-white shadow-md rounded-md'>
-    <h1 className='text-2xl font-semibold mb-4'>
-      Solicitud de {solicitud.tipo}
-    </h1>
-    <p>
-      <strong>Área:</strong> {solicitud.area}
-    </p>
-    <p>
-      <strong>Estado:</strong> {solicitud.estado}
-    </p>
-    <p>
-      <strong>Monto:</strong> {solicitud.monto}
-    </p>
-    <p>
-      <strong>Prioridad:</strong> {solicitud.prioridad}
-    </p>
-    <p>
-      <strong>En Presupuesto:</strong> {solicitud.enPresupuesto}
-    </p>
-    <p>
-      <strong>Proveedor:</strong> {solicitud.proveedor}
-    </p>
-    <p>
-      <strong>Tema:</strong> {solicitud.tema}
-    </p>
-    <p>
-      <strong>Subtema:</strong> {solicitud.subtema}
-    </p>
-    <p>
-      <strong>Tipo:</strong> {solicitud.tipo}
-    </p>
-    <p>
-      <strong>Solicitante:</strong> {user.nombre + ' ' + user.apellido}
-    </p>
-    <p>
-      <strong>Email:</strong> {user.email}
-    </p>
-
-    {solicitud.factura && (
-      <div>
-        <h2 className='text-xl font-semibold mt-4'>Factura</h2>
-        <p>
-          <strong>Nro:</strong> {solicitud.factura.nro ?? ''}
-        </p>
-        <p>
-          <strong>Fecha de Emisión:</strong>{' '}
-          {solicitud.factura.fechaEmision
-            ? formatFecha(solicitud.factura.fechaEmision)
-            : ''}
-        </p>
-        <p>
-          <strong>Fecha de Vencimiento:</strong>{' '}
-          {solicitud.factura.fechaVencimiento
-            ? formatFecha(solicitud.factura.fechaVencimiento)
-            : ''}
-        </p>
-        <p>
-          <strong>Proveedor:</strong> {solicitud.factura.proveedor ?? ''}
-        </p>
-        <p>
-          <strong>Dirección del Proveedor:</strong>{' '}
-          {solicitud.factura.direccionProveedor ?? ''}
-        </p>
-        <p>
-          <strong>CUIT:</strong> {solicitud.factura.cuit ?? ''}
-        </p>
-      </div>
-    )}
-
-    <a
-      href={`demo.wyraa.com/solicitudes/${id}`}
-      className='mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md'
-    >
-      Ir a la Solicitud
-    </a>
-
-    {/* <footer className='mt-4 text-center text-gray-500'>
-      &copy; {new Date().getFullYear()} Nombre de tu Empresa
-    </footer> */}
-  </div>
+  <Html>
+    <Head />
+    <Preview>Wyraa - Nueva Solicitud</Preview>
+    <Tailwind>
+      <Body style={main}>
+        <Container style={container}>
+          <Section>
+            <Column
+              style={tableCell}
+              align='left'
+            >
+              <Text style={heading}>Solicitud de {solicitud.tipo}</Text>
+            </Column>
+          </Section>
+          <Section style={informationTable}>
+            <Row style={informationTableRow}>
+              <Column>
+                <Row>
+                  <Column style={informationTableColumn}>
+                    <Text style={informationTableLabel}>Tipo</Text>
+                    <Text style={informationTableValue}>{solicitud.tipo}</Text>
+                  </Column>
+                </Row>
+                <Row>
+                  <Column style={informationTableColumn}>
+                    <Text style={informationTableLabel}>Area</Text>
+                    <Text style={informationTableValue}>{solicitud.area}</Text>
+                  </Column>
+                </Row>
+                <Row>
+                  <Column style={informationTableColumn}>
+                    <Text style={informationTableLabel}>Proveedor</Text>
+                    <Text style={informationTableValue}>
+                      {solicitud.proveedor}
+                    </Text>
+                  </Column>
+                </Row>
+                <Row>
+                  <Column style={informationTableColumn}>
+                    <Text style={informationTableLabel}>Solicitante</Text>
+                    <Text style={informationTableValue}>
+                      {user.nombre + ' ' + user.apellido}
+                    </Text>
+                  </Column>
+                </Row>
+              </Column>
+              <Column>
+                <Row>
+                  <Column style={informationTableColumn}>
+                    <Text style={informationTableLabel}>Prioridad</Text>
+                    <Text style={informationTableValue}>
+                      {solicitud.prioridad}
+                    </Text>
+                  </Column>
+                </Row>
+                <Row>
+                  <Column style={informationTableColumn}>
+                    <Text style={informationTableLabel}>Tema</Text>
+                    <Text style={informationTableValue}>{solicitud.tema}</Text>
+                  </Column>
+                </Row>
+                <Row>
+                  <Column style={informationTableColumn}>
+                    <Text style={informationTableLabel}>Monto</Text>
+                    <Text style={informationTableValue}>{solicitud.monto}</Text>
+                  </Column>
+                </Row>
+                <Row>
+                  <Column style={informationTableColumn}>
+                    <Text style={informationTableLabel}>Email</Text>
+                    <Link
+                      style={{
+                        ...informationTableValue,
+                        color: '#15c',
+                        textDecoration: 'underline',
+                      }}
+                    >
+                      {user.email}
+                    </Link>
+                  </Column>
+                </Row>
+              </Column>
+              <Column>
+                <Row>
+                  <Column style={informationTableColumn}>
+                    <Text style={informationTableLabel}>
+                      Esta en Presupuesto?
+                    </Text>
+                    <Text style={informationTableValue}>
+                      {solicitud.enPresupuesto}
+                    </Text>
+                  </Column>
+                </Row>
+                <Row>
+                  <Column style={informationTableColumn}>
+                    <Text style={informationTableLabel}>Subtema</Text>
+                    <Text style={informationTableValue}>
+                      {solicitud.subtema}
+                    </Text>
+                  </Column>
+                </Row>
+                <Row>
+                  <Column style={informationTableColumn}>
+                    <Text style={informationTableLabel}>Estado</Text>
+                    <Text style={informationTableValue}>
+                      {solicitud.estado}
+                    </Text>
+                  </Column>
+                </Row>
+              </Column>
+            </Row>
+          </Section>
+          <Section className='flex justify-center items-center'>
+            <Button
+              href={`demo.wyraa.com/solicitudes/${id}`}
+              className='text-white bg-blue-700 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 self-center'
+            >
+              Ir a la Solicitud
+            </Button>
+          </Section>
+        </Container>
+      </Body>
+    </Tailwind>
+  </Html>
 );
+
+const main = {
+  fontFamily: '"Helvetica Neue",Helvetica,Arial,sans-serif',
+  backgroundColor: '#ffffff',
+};
+
+const resetText = {
+  margin: '0',
+  padding: '0',
+  lineHeight: 1.4,
+};
+
+const container = {
+  margin: '0 auto',
+  padding: '20px 0 48px',
+  width: '660px',
+};
+
+const tableCell = { display: 'table-cell' };
+
+const heading = {
+  fontSize: '32px',
+  fontWeight: '300',
+  color: '#888888',
+};
+
+const informationTable = {
+  borderCollapse: 'collapse' as const,
+  borderSpacing: '0px',
+  color: 'rgb(51,51,51)',
+  backgroundColor: 'rgb(250,250,250)',
+  borderRadius: '3px',
+  fontSize: '12px',
+};
+
+const informationTableRow = {
+  height: '46px',
+};
+
+const informationTableColumn = {
+  paddingLeft: '20px',
+  borderStyle: 'solid',
+  borderColor: 'white',
+  borderWidth: '0px 1px 1px 0px',
+  height: '44px',
+};
+
+const informationTableLabel = {
+  ...resetText,
+  color: 'rgb(102,102,102)',
+  fontSize: '10px',
+};
+
+const informationTableValue = {
+  fontSize: '12px',
+  margin: '0',
+  padding: '0',
+  lineHeight: 1.4,
+};
