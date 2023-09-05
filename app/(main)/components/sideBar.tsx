@@ -78,7 +78,11 @@ export function SideBar() {
               Movimientos
             </Button>
             {/* </Link> */}
-            <Link href='/equipo'>
+
+            <Link
+              href='/equipo'
+              prefetch={false}
+            >
               <Button
                 variant={activeButton === 'equipo' ? 'secondary' : 'ghost'}
                 size='sm'
