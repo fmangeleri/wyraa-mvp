@@ -24,6 +24,8 @@ import {
   transformImputacion,
 } from './context/functions';
 
+export const dynamic = 'force-dynamic';
+
 async function getData(id: string): Promise<Solicitud> {
   try {
     const ref = collection(db, 'solicitudes');

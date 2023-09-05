@@ -10,12 +10,13 @@ export async function POST(request: Request, { params }: { params: { id: string 
   const req = await request.json()
   const solicitud: SolicitudNew = req.solicitud
   const user: Usuario = req.user
+  const emails: string[] = req.emails
   const id: string = params.id
 
   try {
     const data = await resend.emails.send({
-      from: 'Wyraa <onboarding@resend.dev>',
-      to: [user.email],
+      from: 'Wyraa <hola@demo.wyraa.com>',
+      to: emails,
       subject: `Nueva Solicitud #${id}`,
       react: NewSolicitudTemplate({ solicitud, user, id }),
       text: ''
