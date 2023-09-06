@@ -8,10 +8,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function Layout({
   children,
-  req,
-}: {
+}: // req,
+{
   children: React.ReactNode;
-  req: IncomingMessage;
+  // req: IncomingMessage;
 }) {
   return (
     <div className='grid lg:grid-cols-6'>
