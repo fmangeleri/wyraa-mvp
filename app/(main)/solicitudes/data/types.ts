@@ -157,8 +157,7 @@ export enum Areas {
   Finanzas = "Finanzas",
   RecursosHumanos = "Recursos Humanos",
   Legales = "Legales",
-  Informacion = "Informatica",
-
+  Informatica = "Informatica",
 }
 
 export enum EnPresupuesto {
