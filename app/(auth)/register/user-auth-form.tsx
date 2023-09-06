@@ -116,7 +116,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                   </Label>
                   <Input
                     id='nombre'
-                    placeholder='Lio'
+                    // placeholder='Lio'
                     type='text'
                     autoCorrect='off'
                     required
@@ -134,7 +134,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                   <Input
                     id='apellido'
                     required
-                    placeholder='Messi'
+                    // placeholder='Messi'
                     type='text'
                     autoCorrect='off'
                     disabled={isLoading}
